@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import './InitiativeEntry.css';
 
+// displays the entry
+// button to trigger a reroll that calls up
+// to the parent somehow
+
 function InitiativeEntry(props) {
   const {
     name,
