@@ -17,6 +17,7 @@ class App extends Component {
     this.state={
       entries: [
         {
+          id: 123,
           name: "Anya",
           modifier: 1,
           initiativeRoll: 6,
@@ -24,6 +25,7 @@ class App extends Component {
           comments: 'on fire',
         },
         {
+          id: 234,
           name: "Wizowski",
           modifier: 2,
           initiativeRoll: 8,
@@ -45,14 +47,16 @@ class App extends Component {
           </p>
           <InitiativeOrder /* could have settings here */>
 
-            { entries.map(entry => {
+            { entries.map((entry, index) => {
               return (
                 <InitiativeEntry
+                  orderNum={index+1}
                   name={entry.name}
                   modifier={entry.modifier}
                   initiativeRoll={entry.initiativeRoll}
                   shouldAutoroll={entry.shouldAutoroll}
                   comments={entry.comments}
+                  key={entry.id}
                 />
               )
             })}

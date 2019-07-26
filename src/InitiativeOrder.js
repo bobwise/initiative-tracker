@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import InitiativeEntry from './InitiativeEntry';
 // import './InitiativeOrder.css';
 
@@ -11,6 +10,8 @@ import InitiativeEntry from './InitiativeEntry';
 class InitiativeOrder extends Component {
   constructor(props) {
     super(props);
+
+    this.addBlankEntry = this.addBlankEntry.bind(this);
 
     // add the initial entries to the array
     this.state = {
@@ -49,26 +50,73 @@ class InitiativeOrder extends Component {
 
     this.setState({
       items: newItems
+    });
+  }
+
+  addBlankEntry(){
+    const { items } = this.state;
+
+    let newItems = [...items];
+    newItems.push({});
+
+    this.setState({
+      items: newItems
+    });
+  }
+
+  updateEntry(id, propName, value){
+    console.log(id);
+    console.log(propName);
+    console.log(value);
+
+    const { items } = this.state;
+
+    let newItems = [...items];
+
+    this.setState(state => {
+      const items = state.items.map((item, index) => {
+        if (item.id === id){
+          return {
+            id: item.id,
+            propName: value,
+            ...item
+          }
+        } else {
+          return item;
+        }
+      });
+
+      return {
+        items,
+      }
     })
-    // setState to new array
+
+    // newItems.find(element => {
+    //   return element.id === id;
+    // }).propName = value;
+
+    // this.setState({
+    //   items: newItems
+    // });
   }
 
   render() {
-    const { children } = this.props;
     const { items } = this.state;
 
     return (
       <div className="initiative_order">
         Initiative
-        <div class='controls'>
+        <div className='controls'>
           <button>Autoroll</button>
-          <button>Add Entry</button>
+          <button onClick={this.addBlankEntry}>Add Entry</button>
         </div>
         <div className='entries'>
-          { items.map(item => {
+          { items.map((item, index) => {
             return (
               <InitiativeEntry
                 {...item.props}
+                key={item.id}
+                onUpdate={this.updateEntry}
               />
             )
           }) }
