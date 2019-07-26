@@ -56,6 +56,7 @@ class App extends Component {
                   initiativeRoll={entry.initiativeRoll}
                   shouldAutoroll={entry.shouldAutoroll}
                   comments={entry.comments}
+                  id={entry.id}
                   key={entry.id}
                 />
               )

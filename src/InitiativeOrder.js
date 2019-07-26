@@ -15,7 +15,7 @@ class InitiativeOrder extends Component {
 
     // add the initial entries to the array
     this.state = {
-      items: React.Children.map(this.props.children, item => ({
+      sortedItems: React.Children.map(this.props.children, item => ({
         ...item,
       })),
     };
@@ -44,23 +44,23 @@ class InitiativeOrder extends Component {
   }
 
   sortEntries(){
-    const { items } = this.state;
+    const { sortedItems } = this.state;
 
-    const newItems = [...items].sort(this.compareEntries);
+    const newItems = [...sortedItems].sort(this.compareEntries);
 
     this.setState({
-      items: newItems
+      sortedItems: newItems
     });
   }
 
   addBlankEntry(){
-    const { items } = this.state;
+    const { sortedItems } = this.state;
 
-    let newItems = [...items];
+    let newItems = [...sortedItems];
     newItems.push({});
 
     this.setState({
-      items: newItems
+      sortedItems: newItems
     });
   }
 
@@ -69,12 +69,12 @@ class InitiativeOrder extends Component {
     console.log(propName);
     console.log(value);
 
-    const { items } = this.state;
+    const { sortedItems } = this.state;
 
-    let newItems = [...items];
+    // set state to a new array that is identical to the old one except for the change
 
     this.setState(state => {
-      const items = state.items.map((item, index) => {
+      const items = state.sortedItems.map((item, index) => {
         if (item.id === id){
           return {
             id: item.id,
@@ -101,7 +101,7 @@ class InitiativeOrder extends Component {
   }
 
   render() {
-    const { items } = this.state;
+    const { sortedItems } = this.state;
 
     return (
       <div className="initiative_order">
@@ -111,7 +111,7 @@ class InitiativeOrder extends Component {
           <button onClick={this.addBlankEntry}>Add Entry</button>
         </div>
         <div className='entries'>
-          { items.map((item, index) => {
+          { sortedItems.map((item, index) => {
             return (
               <InitiativeEntry
                 {...item.props}
