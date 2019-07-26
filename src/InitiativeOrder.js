@@ -67,35 +67,19 @@ class InitiativeOrder extends Component {
   }
 
   updateEntry(id, propName, value){
-    console.log("This entry: " + id);
-    console.log("This field: " + propName);
-    console.log("This new value: " + value);
-
-
-    // const { sortedItems } = this.state;
-
-    // set state to a new array that is identical to the old one except for the change
-
-
-    // const index = this.state.sortedItems.findIndex(entry => entry.props.id === id);
-    // const newEntries = [...this.state.sortedItems];
-
-    // console.log("index of modified item " + index);
-    // console.log(newEntries);
-
-    // newEntries[index].props[propName] = value;
-    // this.setState({sortedItems: newEntries});
-
+    console.log(propName);
+    console.log(value);
 
     this.setState(state => {
       const sortedItems = state.sortedItems.map((item, index) => {
         if (item.id === id){
-
-          console.log("Updating item at index: " + index);
-          console.log("with id: " + id);
-          console.log("Setting param: " + propName);
-          console.log("To new value: " + value);
-
+          
+          if (propName === 'initiativeRoll' || propName === 'modifier') {
+            // check if it's a valid string to int
+            // then parse it
+            // this still feels like a hack
+          } 
+          
           return {
             ...item,
             [propName]: value,
@@ -111,14 +95,6 @@ class InitiativeOrder extends Component {
         sortedItems,
       }
     });
-
-    // newItems.find(element => {
-    //   return element.id === id;
-    // }).propName = value;
-
-    // this.setState({
-    //   items: newItems
-    // });
   }
 
   render() {
@@ -139,8 +115,11 @@ class InitiativeOrder extends Component {
                 id              = { item.id }
                 key             = { item.id }
                 name            = { item.name }
-                initiativeRoll  = { item.initiativeRoll }
-                modifier        = { item.modifier }
+                
+                // parseInt here feels like a bug somewhere else
+                initiativeRoll  = { parseInt(item.initiativeRoll) }
+                modifier        = { parseInt(item.modifier) }
+                
                 comments        = { item.comments }
                 shouldAutoRoll  = { item.shouldAutoRoll }
                 onUpdate        = { this.updateEntry }
