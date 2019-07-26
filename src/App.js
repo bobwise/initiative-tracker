@@ -1,5 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
+import InitiativeOrder from './InitiativeOrder.js';
+import InitiativeEntry from './InitiativeEntry.js';
 import './App.css';
 
 function App() {
@@ -9,6 +10,15 @@ function App() {
         <p>
           I am an Initiative Tracker by Bobwise
         </p>
+        <InitiativeOrder>
+          <InitiativeEntry
+            name='Anya'
+            modifier={1}
+            initiativeRoll={15}
+            shouldAutoroll={false}
+            comments='on fire'
+            ></InitiativeEntry>
+        </InitiativeOrder>
       </header>
     </div>
   );
