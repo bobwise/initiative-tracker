@@ -45,9 +45,11 @@ class App extends Component {
           <p>
             I am an Initiative Tracker by Bobwise
           </p>
-          <InitiativeOrder /* could have settings here */>
+          <InitiativeOrder
+            initialEntries = { entries }
+          >
 
-            { entries.map((entry, index) => {
+            {/* { entries.map((entry, index) => {
               return (
                 <InitiativeEntry
                   orderNum={index+1}
@@ -60,7 +62,7 @@ class App extends Component {
                   key={entry.id}
                 />
               )
-            })}
+            })} */}
           </InitiativeOrder>
         </header>
       </div>

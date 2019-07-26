@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 // import './InitiativeEntry.css';
 
 // displays the entry
-// data is all in props
-// nothing in state?
-// button to trigger a reroll that calls up to the parent somehow
+// needs state because it will eventually be a read/write situation
+// sometimes it's in read mode, sometimes not
+// if only one is ever in write mode, then the parent needs to track the currently active
+// should Read/Write be separate components?
 
 class InitiativeEntry extends Component{
   constructor(props) {

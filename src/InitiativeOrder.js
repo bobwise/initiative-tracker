@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import InitiativeEntry from './InitiativeEntry';
+import PropTypes from 'prop-types';
 // import './InitiativeOrder.css';
 
-// responsible for sorting components
-// components can be added by parent
-// saves its state by calling up to
-// the parent to trigger an interaction with local storage
+// initial entries are passed in as a prop
+// initial entries are stored in state
+// entries are rendered out as InitiativeEntry
+// can be modified in state by modifying InitiativeEntry
+// new ones can be added
+// may periodically call up to App.js to save entries in local storage
 
 class InitiativeOrder extends Component {
   constructor(props) {
@@ -16,11 +19,7 @@ class InitiativeOrder extends Component {
 
     // add the initial entries to the array
     this.state = {
-      // this is copying React Nodes. I think I want to convert those react nodes into just
-      // JSON data at this point. Yet another problem with using React Components as a DTO.
-      sortedItems: React.Children.map(this.props.children, item => ({
-        ...item,
-      })),
+      sortedItems: props.initialEntries
     };
   }
 
@@ -34,8 +33,8 @@ class InitiativeOrder extends Component {
 
   compareEntries(a, b){
     let comparison = 0;
-    let a_value = a.props.initiativeRoll + a.props.modifier;
-    let b_value = b.props.initiativeRoll + b.props.modifier;
+    let a_value = a.initiativeRoll + a.modifier;
+    let b_value = b.initiativeRoll + b.modifier;
 
     if (a_value > b_value){
       comparison = 1;
@@ -90,7 +89,7 @@ class InitiativeOrder extends Component {
 
     this.setState(state => {
       const sortedItems = state.sortedItems.map((item, index) => {
-        if (item.props.id === id){
+        if (item.id === id){
 
           console.log("Updating item at index: " + index);
           console.log("with id: " + id);
@@ -98,14 +97,15 @@ class InitiativeOrder extends Component {
           console.log("To new value: " + value);
 
           return {
-            id: item.props.id,
-            propName: value,
-            ...item
+            ...item,
+            [propName]: value,
           }
         } else {
           return item;
         }
       });
+
+      console.log(sortedItems);
 
       return {
         sortedItems,
@@ -135,9 +135,15 @@ class InitiativeOrder extends Component {
           { sortedItems.map((item, index) => {
             return (
               <InitiativeEntry
-                {...item.props}
-                key={item.id}
-                onUpdate={this.updateEntry}
+                orderNum        = { index +   1 }
+                id              = { item.id }
+                key             = { item.id }
+                name            = { item.name }
+                initiativeRoll  = { item.initiativeRoll }
+                modifier        = { item.modifier }
+                comments        = { item.comments }
+                shouldAutoRoll  = { item.shouldAutoRoll }
+                onUpdate        = { this.updateEntry }
               />
             )
           }) }
@@ -148,7 +154,7 @@ class InitiativeOrder extends Component {
 }
 
 InitiativeOrder.propTypes = {
-  // entries are children, not props
+  initialEntries: PropTypes.array,
 };
 
 export default InitiativeOrder;
