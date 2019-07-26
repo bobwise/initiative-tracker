@@ -12,9 +12,12 @@ class InitiativeOrder extends Component {
     super(props);
 
     this.addBlankEntry = this.addBlankEntry.bind(this);
+    this.updateEntry = this.updateEntry.bind(this);
 
     // add the initial entries to the array
     this.state = {
+      // this is copying React Nodes. I think I want to convert those react nodes into just
+      // JSON data at this point. Yet another problem with using React Components as a DTO.
       sortedItems: React.Children.map(this.props.children, item => ({
         ...item,
       })),
@@ -65,19 +68,37 @@ class InitiativeOrder extends Component {
   }
 
   updateEntry(id, propName, value){
-    console.log(id);
-    console.log(propName);
-    console.log(value);
+    console.log("This entry: " + id);
+    console.log("This field: " + propName);
+    console.log("This new value: " + value);
 
-    const { sortedItems } = this.state;
+
+    // const { sortedItems } = this.state;
 
     // set state to a new array that is identical to the old one except for the change
 
+
+    // const index = this.state.sortedItems.findIndex(entry => entry.props.id === id);
+    // const newEntries = [...this.state.sortedItems];
+
+    // console.log("index of modified item " + index);
+    // console.log(newEntries);
+
+    // newEntries[index].props[propName] = value;
+    // this.setState({sortedItems: newEntries});
+
+
     this.setState(state => {
-      const items = state.sortedItems.map((item, index) => {
-        if (item.id === id){
+      const sortedItems = state.sortedItems.map((item, index) => {
+        if (item.props.id === id){
+
+          console.log("Updating item at index: " + index);
+          console.log("with id: " + id);
+          console.log("Setting param: " + propName);
+          console.log("To new value: " + value);
+
           return {
-            id: item.id,
+            id: item.props.id,
             propName: value,
             ...item
           }
@@ -87,9 +108,9 @@ class InitiativeOrder extends Component {
       });
 
       return {
-        items,
+        sortedItems,
       }
-    })
+    });
 
     // newItems.find(element => {
     //   return element.id === id;

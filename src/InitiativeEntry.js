@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 // import './InitiativeEntry.css';
 
 // displays the entry
-// button to trigger a reroll that calls up
-// to the parent somehow
+// data is all in props
+// nothing in state?
+// button to trigger a reroll that calls up to the parent somehow
 
 class InitiativeEntry extends Component{
   constructor(props) {
@@ -22,10 +23,6 @@ class InitiativeEntry extends Component{
 
     // pass the new value up to the parent?
     this.props.onUpdate(this.props.id, name, value);
-
-    // this.setState({
-    //   [name]: value
-    // });
   }
 
   render() {
