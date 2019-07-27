@@ -41,30 +41,14 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <p>
-            I am an Initiative Tracker by Bobwise
-          </p>
-          <InitiativeOrder
-            initialEntries = { entries }
-          >
-
-            {/* { entries.map((entry, index) => {
-              return (
-                <InitiativeEntry
-                  orderNum={index+1}
-                  name={entry.name}
-                  modifier={entry.modifier}
-                  initiativeRoll={entry.initiativeRoll}
-                  shouldAutoroll={entry.shouldAutoroll}
-                  comments={entry.comments}
-                  id={entry.id}
-                  key={entry.id}
-                />
-              )
-            })} */}
-          </InitiativeOrder>
-        </header>
+        <h1>
+          Initiative Tracker
+        </h1>
+        <InitiativeOrder initialEntries = { entries } >
+        </InitiativeOrder>
+        <div>
+          by Bobwise
+        </div>
       </div>
     );
   }

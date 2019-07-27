@@ -1,0 +1,25 @@
+- Quickly enter everyone's initiatives and have it autosort
+- Indicate conflicts and prompt for initiative bonuses
+- Save in local memory so I don't need to ask again next session
+- Autoroll if desired
+- Output is pretty so I can screenshot it into Sketch or pull it up full screen
+- Track status effects or things that affect turn order
+- Easy UI - one-click to select names to edit
+
+InitiativeOrder component
+- list of InitiativeEntry objects
+- entries are automatically sorted by Iniative
+- if there are conflicts, those are highlighted and prompted for a modifier
+- If there is still a conflict, prompted to reroll
+
+InitiativeEntry
+Name
+Modifier
+Initiative
+ShouldAutoroll (flag)
+A button that when clicked triggers the autoroll
+Comments - just text to display. Things like "slowed" or "death saving" "on fire" etc
+
+
+
+Pass initial data as an array, not as components

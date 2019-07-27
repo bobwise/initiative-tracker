@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import InitiativeEntry from './InitiativeEntry';
 import PropTypes from 'prop-types';
+import './InitiativeOrder.css';
 var uniqueId = require('lodash.uniqueid');
-
-// import './InitiativeOrder.css';
 
 // initial entries are passed in as a prop
 // initial entries are stored in state
@@ -105,8 +104,6 @@ class InitiativeOrder extends Component {
         }
       }).sort(this.compareEntries);
 
-      console.log(sortedItems);
-
       // const newItems = [...sortedItems].sort(this.compareEntries);
 
       return {
@@ -120,10 +117,12 @@ class InitiativeOrder extends Component {
 
     return (
       <div className="initiative_order">
-        Initiative
-        <div className='controls'>
-          <button>Autoroll</button>
-          <button onClick={this.addBlankEntry}>Add Entry</button>
+        <div class='header'>
+          <div class='header__number'></div>
+          <div class='header__character'>Character</div>
+          <div class='header__roll'>D20 Roll</div>
+          <div class='header__modifier'>Modifier</div>
+          <div class='header__initiative'>Initiative</div>
         </div>
         <div className='entries'>
           { sortedItems.map((item, index) => {
@@ -142,6 +141,10 @@ class InitiativeOrder extends Component {
               />
             )
           }) }
+        </div>
+        <div className='controls'>
+          {/* <button>Autoroll</button> */}
+          <button onClick={this.addBlankEntry}>Add Entry</button>
         </div>
       </div>
     );

@@ -1,0 +1,28 @@
+.controls {
+    margin-bottom: 15px;
+}
+
+.header {
+    padding: 15px;
+}
+
+.header div {
+    display: inline-block;
+}
+
+.header__number {
+     width: 5%; 
+}
+.header__character { 
+    width: 40%;
+    font-size: 32px;
+}
+.header__roll { width: 15% }
+.header__modifier { width: 15% }
+.header__initiative {
+    width: 5%;
+    font-size: 32px;
+}
+
+.entries {
+}

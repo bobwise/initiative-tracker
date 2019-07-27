@@ -1,0 +1,48 @@
+input, textarea {
+    font-family: "modesto-text", serif;
+    background: none;
+    border: none;
+    font-size: 28px;
+    width: 95%;
+}
+
+textarea {
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+}
+
+.initiative_entry {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border: 3px solid brown;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: beige;
+}
+
+.initiative_entry div {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.orderNumber { 
+    width: 5%;
+    font-size: 28px;
+}
+.name { width: 40% }
+.initiative_roll { width: 15% }
+.modifier { width : 15% }
+.initiative { 
+    text-align: center;
+    width : 15%;
+    font-size: 48px;
+}
+.comments {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed brown;
+    width: 100%;
+}
