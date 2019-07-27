@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 class InitiativeEntry extends Component{
   constructor(props) {
     super(props);
-
-    // this.state = props;
+    this.nameRef = React.createRef();
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -24,6 +23,13 @@ class InitiativeEntry extends Component{
 
     // pass the new value up to the parent?
     this.props.onUpdate(this.props.id, name, value);
+  }
+
+  componentDidMount() {
+    if (this.props.focusMe) {
+      console.log('applying focus to ' + this.nameRef.current.html);
+      this.nameRef.current.select();
+    }
   }
 
   render() {
@@ -40,7 +46,7 @@ class InitiativeEntry extends Component{
       <div className="initiative_entry">
         <span className='orderNumber'>{orderNum}</span>
         <span className='name'>
-          <input type='text' name='name' value={name} onChange={this.handleInputChange}/>
+          <input ref={this.nameRef} type='text' name='name' value={name} onChange={this.handleInputChange}/>
         </span>
         <span className='initiative_roll'>
           <input type='text' name='initiativeRoll' value={initiativeRoll} onChange={this.handleInputChange}/>
@@ -71,16 +77,21 @@ InitiativeEntry.propTypes = {
   // if modifier not available, this is assumed
   // to be the state value
   initiativeRoll: PropTypes.number,
+  // whether or not to include on an Autoroll
   shouldAutoroll: PropTypes.bool,
   // just text to display.
   // Things like "slowed" or "death saving" "on fire" etc
   comments: PropTypes.string,
   orderNum: PropTypes.number,
   onUpdate: PropTypes.func,
+  // if true, this component will attempt to apply focus 
+  // to the first input in the form after it renders
+  focusMe: PropTypes.bool,
 };
 
 InitiativeEntry.defaultProps = {
   shouldAutoroll: false,
+  initiativeRoll: 0,
   modifier: 0,
   name: "Character Name",
   orderNum: 1,

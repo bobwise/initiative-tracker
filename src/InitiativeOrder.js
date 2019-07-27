@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import InitiativeEntry from './InitiativeEntry';
 import PropTypes from 'prop-types';
+var uniqueId = require('lodash.uniqueid');
+
 // import './InitiativeOrder.css';
 
 // initial entries are passed in as a prop
@@ -59,25 +61,39 @@ class InitiativeOrder extends Component {
     const { sortedItems } = this.state;
 
     let newItems = [...sortedItems];
-    newItems.push({});
+    newItems.push({
+      id: parseInt(uniqueId()),
+    });
 
     this.setState({
-      sortedItems: newItems
+      sortedItems: newItems,
+      // tells the child to after the state updates set focus on the new item
+      focusNewItem: true,
     });
   }
 
   updateEntry(id, propName, value){
-    console.log(propName);
-    console.log(value);
-
     this.setState(state => {
       const sortedItems = state.sortedItems.map((item, index) => {
         if (item.id === id){
           
+          // this still feels like a hack
           if (propName === 'initiativeRoll' || propName === 'modifier') {
-            // check if it's a valid string to int
-            // then parse it
-            // this still feels like a hack
+            
+            // console.log(propName === 'modifier');
+            value = parseInt(value);
+
+            if (isNaN(value)) {
+              return {
+                ...item,
+                [propName]: 0,
+              }    
+            } else {
+              return {
+                ...item,
+                [propName]: parseInt(value),
+              }
+            }
           } 
           
           return {
@@ -87,9 +103,11 @@ class InitiativeOrder extends Component {
         } else {
           return item;
         }
-      });
+      }).sort(this.compareEntries);
 
       console.log(sortedItems);
+
+      // const newItems = [...sortedItems].sort(this.compareEntries);
 
       return {
         sortedItems,
@@ -98,7 +116,7 @@ class InitiativeOrder extends Component {
   }
 
   render() {
-    const { sortedItems } = this.state;
+    const { sortedItems, focusNewItem } = this.state;
 
     return (
       <div className="initiative_order">
@@ -115,14 +133,12 @@ class InitiativeOrder extends Component {
                 id              = { item.id }
                 key             = { item.id }
                 name            = { item.name }
-                
-                // parseInt here feels like a bug somewhere else
-                initiativeRoll  = { parseInt(item.initiativeRoll) }
-                modifier        = { parseInt(item.modifier) }
-                
+                initiativeRoll  = { item.initiativeRoll }
+                modifier        = { item.modifier }
                 comments        = { item.comments }
                 shouldAutoRoll  = { item.shouldAutoRoll }
                 onUpdate        = { this.updateEntry }
+                focusMe         = { focusNewItem && (index === sortedItems.length - 1) }
               />
             )
           }) }
