@@ -2,7 +2,7 @@ input, textarea {
     font-family: "modesto-text", serif;
     background: none;
     border: none;
-    font-size: 28px;
+    font-size: 18px;
     width: 95%;
 }
 
@@ -18,7 +18,7 @@ textarea {
     flex-wrap: nowrap;
     border: 3px solid brown;
     border-radius: 4px;
-    padding: 15px;
+    padding: 5px 15px;
     margin-bottom: 15px;
     background-color: beige;
 }
@@ -30,7 +30,7 @@ textarea {
 
 .orderNumber { 
     width: 5%;
-    font-size: 28px;
+    font-size: 18px;
 }
 .name { width: 40% }
 .initiative_roll { width: 15% }
@@ -38,7 +38,7 @@ textarea {
 .initiative { 
     text-align: center;
     width : 15%;
-    font-size: 48px;
+    font-size: 32px;
 }
 .comments {
     margin-top: 10px;

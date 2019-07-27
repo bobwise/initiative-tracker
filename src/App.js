@@ -47,7 +47,7 @@ class App extends Component {
         <InitiativeOrder initialEntries = { entries } >
         </InitiativeOrder>
         <div>
-          by Bobwise
+            by Bobwise
         </div>
       </div>
     );

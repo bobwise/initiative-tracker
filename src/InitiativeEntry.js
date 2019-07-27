@@ -63,7 +63,7 @@ class InitiativeEntry extends Component{
           </div> */}
         </div>
         <div className='comments'>
-          <textarea rows={2} type='text' name='comments' value={comments} onChange={this.handleInputChange} />
+          <textarea rows={1} type='text' name='comments' value={comments} onChange={this.handleInputChange} />
         </div>
       </div>
     );
