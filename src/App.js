@@ -19,18 +19,41 @@ class App extends Component {
         {
           id: 123,
           name: "Anya",
-          modifier: 1,
           initiativeRoll: 6,
-          shouldAutoroll: false,
-          comments: 'on fire',
+          modifier: 2,
         },
         {
           id: 234,
           name: "Wizowski",
+          initiativeRoll: 6,
+          modifier: 3,
+        },
+        {
+          id: 1233,
+          name: "Milo",
+          initiativeRoll: 6,
           modifier: 2,
-          initiativeRoll: 8,
-          shouldAutoroll: true,
-          comments: 'death saving throw',
+        },
+        {
+          id: 23444,
+          name: "Shandri",
+          initiativeRoll: 4,
+        },
+        {
+          id: 2352334,
+          name: "Raj",
+          initiativeRoll: 4,
+        },
+        {
+          id: 22333333352334,
+          name: "Xhauk",
+          initiativeRoll: 18,
+        },
+        {
+          id: 223352334,
+          name: "Kriv",
+          initiativeRoll: 20,
+          modifier: 10,
         },
       ]
     }
@@ -45,8 +68,7 @@ class App extends Component {
           Initiative Tracker
         </h1>
         <InitiativeOrder 
-          // initialEntries = { [] }
-          // initialEntries = { entries } 
+          initialEntries = { entries } 
         >
         </InitiativeOrder>
         <div>

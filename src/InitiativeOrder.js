@@ -1,15 +1,8 @@
-import React, { Component } from 'react';
-import InitiativeEntry from './InitiativeEntry';
-import PropTypes from 'prop-types';
-import './InitiativeOrder.css';
-var uniqueId = require('lodash.uniqueid');
-
-// initial entries are passed in as a prop
-// initial entries are stored in state
-// entries are rendered out as InitiativeEntry
-// can be modified in state by modifying InitiativeEntry
-// new ones can be added
-// may periodically call up to App.js to save entries in local storage
+import React, { Component } from "react";
+import InitiativeEntry from "./InitiativeEntry";
+import PropTypes from "prop-types";
+import "./InitiativeOrder.css";
+var uniqueId = require("lodash.uniqueid");
 
 class InitiativeOrder extends Component {
   constructor(props) {
@@ -19,30 +12,27 @@ class InitiativeOrder extends Component {
     this.updateEntry = this.updateEntry.bind(this);
     this.killChild = this.killChild.bind(this);
 
-    // add the initial entries to the array
     this.state = {
-      sortedItems: props.initialEntries ? props.initialEntries : []
+      // give them ids if they don't have them
+      initiativeOrder: props.initialEntries ? props.initialEntries : [],
+      rollConflicts: [],
+      modifierConflicts: []
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.sortEntries();
   }
 
-  // deprecated
-  componentDidUpdate(prevProps, prevState) {
-    // this.sortEntries();
-  }
-
-  compareEntries(a, b){
+  compareEntries(a, b) {
     let comparison = 0;
     let a_value = a.initiativeRoll + a.modifier;
     let b_value = b.initiativeRoll + b.modifier;
 
-    if (a_value > b_value){
+    if (a_value > b_value) {
       console.log(a_value + " is greater than " + b_value);
       comparison = 1;
-    } else if (b_value > a_value){
+    } else if (b_value > a_value) {
       console.log(a_value + " is less than " + b_value);
       comparison = -1;
     }
@@ -51,121 +41,186 @@ class InitiativeOrder extends Component {
     return comparison;
   }
 
-  sortEntries(){
-    const { sortedItems } = this.state;
+  // go through initiativeOrder and pull out the conflicts
+  sortEntries() {
+    const { initiativeOrder } = this.state;
 
-    const newItems = [...sortedItems].sort(this.compareEntries);
+    const newItems = [...initiativeOrder].sort(this.compareEntries);
 
     this.setState({
-      sortedItems: newItems
+      initiativeOrder: newItems
     });
   }
 
-  addBlankEntry(){
-    const { sortedItems } = this.state;
+  addBlankEntry() {
+    const { initiativeOrder } = this.state;
 
-    let newItems = [...sortedItems];
+    let newItems = [...initiativeOrder];
     newItems.push({
-      id: parseInt(uniqueId()),
+      id: parseInt(uniqueId())
     });
 
     this.setState({
-      sortedItems: newItems,
-      // tells the child to after the state updates set focus on the new item
-      focusLastItem: true,
+      initiativeOrder: newItems,
+      focusLastItem: true
     });
   }
 
   killChild(child) {
-    console.log('kill child ' + child);
-    const { sortedItems } = this.state;
-    
+    console.log("kill child " + child);
+    const { initiativeOrder } = this.state;
+
     // delete all reference to child
-    let newItems = sortedItems.filter(e => e.id !== child);
+    let newItems = initiativeOrder.filter(e => e.id !== child);
 
     this.setState({
-      sortedItems: newItems,
+      initiativeOrder: newItems
       // set focus where???
     });
   }
 
-  updateEntry(id, propName, value){
+  updateEntry(id, propName, value) {
     // console.log("updating " + propName + " to " + value);
-    
+
     // this whole block is too clever for its own good
     this.setState(state => {
-      const sortedItems = state.sortedItems.map((item, index) => {
-        if (item.id === id){
-          
+      const initiativeOrder = state.initiativeOrder.map((item, index) => {
+        if (item.id === id) {
           // this still feels like a hack
-          if (propName === 'initiativeRoll' || propName === 'modifier') {
+          if (propName === "initiativeRoll" || propName === "modifier") {
             value = parseInt(value);
 
             if (isNaN(value)) {
               return {
                 ...item,
-                [propName]: 0,
-              }    
+                [propName]: 0
+              };
             } else {
               return {
                 ...item,
-                [propName]: parseInt(value),
-              }
+                [propName]: parseInt(value)
+              };
             }
-          } 
-          
+          }
+
           return {
             ...item,
-            [propName]: value,
-          }
+            [propName]: value
+          };
         } else {
           return item;
         }
-      });//.sort(this.compareEntries);
+      }); //.sort(this.compareEntries);
 
-      // const newItems = [...sortedItems].sort(this.compareEntries);
+      // const newItems = [...initiativeOrder].sort(this.compareEntries);
 
       return {
-        sortedItems,
-      }
+        initiativeOrder
+      };
     });
   }
 
   render() {
-    const { sortedItems, focusLastItem } = this.state;
+    const { initiativeOrder, rollConflicts, modifierConflicts, focusLastItem } = this.state;
 
     return (
-      <div className="initiative_order">
-        <div className='header'>
-          <div className='header__number'></div>
-          <div className='header__character'>Character</div>
-          <div className='header__roll'>D20 Roll</div>
-          <div className='header__modifier'>Modifier</div>
-          <div className='header__initiative'>Initiative</div>
+      <div className="">
+        <div className="initiative_order">
+          <h2>Initiative Order</h2>
+          <div className="controls">
+            {/* <button>Autoroll</button> */}
+            <button onClick={this.addBlankEntry}>Add Entry</button>
+          </div>
+          <div className="header">
+            <div className="header__number" />
+            <div className="header__character">Character</div>
+            <div className="header__roll">D20 Roll</div>
+            <div className="header__modifier">Modifier</div>
+            <div className="header__initiative">Initiative</div>
+          </div>
+          <div className="entries">
+            {/* there's a better way to write this */}
+            {initiativeOrder.length > 0 &&
+              initiativeOrder.map((item, index) => {
+                return (
+                  <InitiativeEntry
+                    orderNum={index + 1}
+                    id={item.id}
+                    key={item.id}
+                    name={item.name}
+                    initiativeRoll={item.initiativeRoll}
+                    modifier={item.modifier}
+                    comments={item.comments}
+                    shouldAutoRoll={item.shouldAutoRoll}
+                    onUpdate={this.updateEntry}
+                    deleteCallback={this.killChild}
+                    focusMe={
+                      focusLastItem && index === initiativeOrder.length - 1
+                    }
+                  />
+                );
+              })}
+          </div>
         </div>
-        <div className='entries'>
-          {/* there's a better way to write this */}
-          { sortedItems.length > 0 && sortedItems.map((item, index) => {
-            return (
-              <InitiativeEntry
-                orderNum        = { index +   1 }
-                id              = { item.id }
-                key             = { item.id }
-                name            = { item.name }
-                initiativeRoll  = { item.initiativeRoll }
-                modifier        = { item.modifier }
-                comments        = { item.comments }
-                shouldAutoRoll  = { item.shouldAutoRoll }
-                onUpdate        = { this.updateEntry }
-                deleteCallback  = { this.killChild }
-                focusMe         = { focusLastItem && (index === sortedItems.length - 1) }
-              />
-            )
-          }) }
+        <div className="need_modifiers">
+          <h2>Need Modifiers</h2>
+          <div className="header">
+            <div className="header__number" />
+            <div className="header__character">Character</div>
+            <div className="header__roll">D20 Roll</div>
+            <div className="header__modifier">Modifier</div>
+            <div className="header__initiative">Initiative</div>
+          </div>
+          <div className="entries">
+            {/* there's a better way to write this */}
+            {rollConflicts.length > 0 &&
+              rollConflicts.map((item, index) => {
+                return (
+                  <InitiativeEntry
+                    orderNum={index + 1}
+                    id={item.id}
+                    key={item.id}
+                    name={item.name}
+                    initiativeRoll={item.initiativeRoll}
+                    modifier={item.modifier}
+                    comments={item.comments}
+                    shouldAutoRoll={item.shouldAutoRoll}
+                    onUpdate={this.updateEntry}
+                    deleteCallback={this.killChild}
+                  />
+                );
+              })}
+          </div>
         </div>
-        <div className='controls'>
-          {/* <button>Autoroll</button> */}
-          <button onClick={this.addBlankEntry}>Add Entry</button>
+        <div className="need_rerolls">
+          <h2>Need Rerolls</h2>
+          <div className="header">
+            <div className="header__number" />
+            <div className="header__character">Character</div>
+            <div className="header__roll">D20 Roll</div>
+            <div className="header__modifier">Modifier</div>
+            <div className="header__initiative">Initiative</div>
+          </div>
+          <div className="entries">
+            {/* there's a better way to write this */}
+            {modifierConflicts.length > 0 &&
+              modifierConflicts.map((item, index) => {
+                return (
+                  <InitiativeEntry
+                    orderNum={index + 1}
+                    id={item.id}
+                    key={item.id}
+                    name={item.name}
+                    initiativeRoll={item.initiativeRoll}
+                    modifier={item.modifier}
+                    comments={item.comments}
+                    shouldAutoRoll={item.shouldAutoRoll}
+                    onUpdate={this.updateEntry}
+                    deleteCallback={this.killChild}
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
     );
@@ -173,7 +228,7 @@ class InitiativeOrder extends Component {
 }
 
 InitiativeOrder.propTypes = {
-  initialEntries: PropTypes.array,
+  initialEntries: PropTypes.array
 };
 
 export default InitiativeOrder;

@@ -72,9 +72,9 @@ class InitiativeEntry extends Component{
             <input type='checkbox' name='shouldAutoroll' onChange={this.handleInputChange} checked={shouldAutoroll} />
           </div> */}
         </div>
-        <div className='comments'>
+        {/* <div className='comments'>
           <textarea rows={1} type='text' name='comments' value={comments} onChange={this.handleInputChange} />
-        </div>
+        </div> */}
       </div>
     );
   }
