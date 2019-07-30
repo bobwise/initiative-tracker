@@ -44,7 +44,10 @@ class App extends Component {
         <h1>
           Initiative Tracker
         </h1>
-        <InitiativeOrder initialEntries = { entries } >
+        <InitiativeOrder 
+          // initialEntries = { [] }
+          // initialEntries = { entries } 
+        >
         </InitiativeOrder>
         <div>
             by Bobwise

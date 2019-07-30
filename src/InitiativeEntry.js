@@ -27,7 +27,7 @@ class InitiativeEntry extends Component{
 
   componentDidMount() {
     if (this.props.focusMe) {
-      console.log('applying focus to ' + this.nameRef.current.html);
+      // console.log('applying focus to ' + this.nameRef.current.html);
       this.nameRef.current.select();
     }
   }

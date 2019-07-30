@@ -20,7 +20,7 @@ class InitiativeOrder extends Component {
 
     // add the initial entries to the array
     this.state = {
-      sortedItems: props.initialEntries
+      sortedItems: props.initialEntries ? props.initialEntries : []
     };
   }
 
@@ -125,7 +125,7 @@ class InitiativeOrder extends Component {
           <div class='header__initiative'>Initiative</div>
         </div>
         <div className='entries'>
-          { sortedItems.map((item, index) => {
+          { sortedItems.length > 0 && sortedItems.map((item, index) => {
             return (
               <InitiativeEntry
                 orderNum        = { index +   1 }
