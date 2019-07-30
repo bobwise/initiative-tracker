@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import DeleteIcon from './DeleteIcon';
+
 import './InitiativeEntry.css';
 
 // displays the entry
@@ -34,18 +36,26 @@ class InitiativeEntry extends Component{
 
   render() {
     const {
+      id,
       name,
       modifier,
       initiativeRoll,
       shouldAutoroll,
       comments,
       orderNum,
+      deleteCallback,
     } = this.props;
 
     return (
       <div className="initiative_entry">
         <div>
           <div className='orderNumber'>{orderNum}</div>
+          <div className='actions'>
+            {/* call up to my parent and tell them to kill me */}
+            <div className='deleteIcon' onClick={ () =>  { deleteCallback(id); } }>
+              <DeleteIcon />
+            </div>
+          </div>
           <div className='name'>
             <input ref={this.nameRef} type='text' name='name' value={name} onChange={this.handleInputChange}/>
           </div>
@@ -89,6 +99,7 @@ InitiativeEntry.propTypes = {
   // if true, this component will attempt to apply focus 
   // to the first input in the form after it renders
   focusMe: PropTypes.bool,
+  deleteCallback: PropTypes.func,
 };
 
 InitiativeEntry.defaultProps = {
@@ -97,6 +108,7 @@ InitiativeEntry.defaultProps = {
   modifier: 0,
   name: "Character Name",
   orderNum: 1,
+  deleteCallback: () => {},
 }
 
 export default InitiativeEntry;

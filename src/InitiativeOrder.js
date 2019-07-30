@@ -17,6 +17,7 @@ class InitiativeOrder extends Component {
 
     this.addBlankEntry = this.addBlankEntry.bind(this);
     this.updateEntry = this.updateEntry.bind(this);
+    this.killChild = this.killChild.bind(this);
 
     // add the initial entries to the array
     this.state = {
@@ -28,6 +29,7 @@ class InitiativeOrder extends Component {
     this.sortEntries();
   }
 
+  // deprecated
   componentDidUpdate(prevProps, prevState) {
     // this.sortEntries();
   }
@@ -38,12 +40,15 @@ class InitiativeOrder extends Component {
     let b_value = b.initiativeRoll + b.modifier;
 
     if (a_value > b_value){
+      console.log(a_value + " is greater than " + b_value);
       comparison = 1;
     } else if (b_value > a_value){
+      console.log(a_value + " is less than " + b_value);
       comparison = -1;
     }
 
-    return comparison * -1;
+    // console.log(a_value + " is greater than " + b_value);
+    return comparison;
   }
 
   sortEntries(){
@@ -67,19 +72,33 @@ class InitiativeOrder extends Component {
     this.setState({
       sortedItems: newItems,
       // tells the child to after the state updates set focus on the new item
-      focusNewItem: true,
+      focusLastItem: true,
+    });
+  }
+
+  killChild(child) {
+    console.log('kill child ' + child);
+    const { sortedItems } = this.state;
+    
+    // delete all reference to child
+    let newItems = sortedItems.filter(e => e.id !== child);
+
+    this.setState({
+      sortedItems: newItems,
+      // set focus where???
     });
   }
 
   updateEntry(id, propName, value){
+    // console.log("updating " + propName + " to " + value);
+    
+    // this whole block is too clever for its own good
     this.setState(state => {
       const sortedItems = state.sortedItems.map((item, index) => {
         if (item.id === id){
           
           // this still feels like a hack
           if (propName === 'initiativeRoll' || propName === 'modifier') {
-            
-            // console.log(propName === 'modifier');
             value = parseInt(value);
 
             if (isNaN(value)) {
@@ -102,7 +121,7 @@ class InitiativeOrder extends Component {
         } else {
           return item;
         }
-      }).sort(this.compareEntries);
+      });//.sort(this.compareEntries);
 
       // const newItems = [...sortedItems].sort(this.compareEntries);
 
@@ -113,18 +132,19 @@ class InitiativeOrder extends Component {
   }
 
   render() {
-    const { sortedItems, focusNewItem } = this.state;
+    const { sortedItems, focusLastItem } = this.state;
 
     return (
       <div className="initiative_order">
-        <div class='header'>
-          <div class='header__number'></div>
-          <div class='header__character'>Character</div>
-          <div class='header__roll'>D20 Roll</div>
-          <div class='header__modifier'>Modifier</div>
-          <div class='header__initiative'>Initiative</div>
+        <div className='header'>
+          <div className='header__number'></div>
+          <div className='header__character'>Character</div>
+          <div className='header__roll'>D20 Roll</div>
+          <div className='header__modifier'>Modifier</div>
+          <div className='header__initiative'>Initiative</div>
         </div>
         <div className='entries'>
+          {/* there's a better way to write this */}
           { sortedItems.length > 0 && sortedItems.map((item, index) => {
             return (
               <InitiativeEntry
@@ -137,7 +157,8 @@ class InitiativeOrder extends Component {
                 comments        = { item.comments }
                 shouldAutoRoll  = { item.shouldAutoRoll }
                 onUpdate        = { this.updateEntry }
-                focusMe         = { focusNewItem && (index === sortedItems.length - 1) }
+                deleteCallback  = { this.killChild }
+                focusMe         = { focusLastItem && (index === sortedItems.length - 1) }
               />
             )
           }) }

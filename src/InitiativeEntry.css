@@ -46,3 +46,8 @@ textarea {
     border-top: 1px dashed brown;
     width: 100%;
 }
+
+.deleteIcon {
+    height: 32px;
+    width: 32px;
+}
