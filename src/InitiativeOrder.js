@@ -11,12 +11,14 @@ class InitiativeOrder extends Component {
     this.addBlankEntry = this.addBlankEntry.bind(this);
     this.updateEntry = this.updateEntry.bind(this);
     this.killChild = this.killChild.bind(this);
+    this.sortEntries = this.sortEntries.bind(this);
 
     this.state = {
       // give them ids if they don't have them
-      initiativeOrder: props.initialEntries ? props.initialEntries : [],
-      rollConflicts: [],
-      modifierConflicts: []
+      allEntries: props.initialEntries ? props.initialEntries : [],
+      initiativeOrder: [],
+      needModifiers: [],
+      needRerolls: [],
     };
   }
 
@@ -26,8 +28,8 @@ class InitiativeOrder extends Component {
 
   compareEntries(a, b) {
     let comparison = 0;
-    let a_value = a.initiativeRoll + a.modifier;
-    let b_value = b.initiativeRoll + b.modifier;
+    let a_value = a.initiative;
+    let b_value = b.initiative;
 
     if (a_value > b_value) {
       console.log(a_value + " is greater than " + b_value);
@@ -35,33 +37,42 @@ class InitiativeOrder extends Component {
     } else if (b_value > a_value) {
       console.log(a_value + " is less than " + b_value);
       comparison = -1;
+    } else {
+      console.log(a_value + " is equal to " + b_value);
+      comparison = 0;
     }
-
-    // console.log(a_value + " is greater than " + b_value);
-    return comparison;
+    // reverse the array
+    return comparison * -1;
   }
 
   // go through initiativeOrder and pull out the conflicts
   sortEntries() {
-    const { initiativeOrder } = this.state;
+    const { allEntries } = this.state;
 
-    const newItems = [...initiativeOrder].sort(this.compareEntries);
+    const sortedItems = [...allEntries].sort(this.compareEntries);
+
+    const newInitiative = sortedItems.filter(x => { return !x.needsModifier && !x.needsRolls })
+    const newNeedModifiers = sortedItems.filter(x => { return x.needsModifier });
+    const newneedRerolls = sortedItems.filter(x => { return x.needRerolls });
 
     this.setState({
-      initiativeOrder: newItems
+      initiativeOrder: newInitiative,
+      needModifiers: newNeedModifiers,
+      needRerolls: newneedRerolls,
     });
   }
 
   addBlankEntry() {
-    const { initiativeOrder } = this.state;
+    const { allEntries } = this.state;
 
-    let newItems = [...initiativeOrder];
+    // this should probably be moved somewhere else. entry section at top of screen?
+    let newItems = [...allEntries];
     newItems.push({
       id: parseInt(uniqueId())
     });
 
     this.setState({
-      initiativeOrder: newItems,
+      allEntries: newItems,
       focusLastItem: true
     });
   }
@@ -84,10 +95,10 @@ class InitiativeOrder extends Component {
 
     // this whole block is too clever for its own good
     this.setState(state => {
-      const initiativeOrder = state.initiativeOrder.map((item, index) => {
+      const allEntries = state.allEntries.map((item, index) => {
         if (item.id === id) {
           // this still feels like a hack
-          if (propName === "initiativeRoll" || propName === "modifier") {
+          if (propName === "initiative" || propName === "modifier" || propName === "reroll") {
             value = parseInt(value);
 
             if (isNaN(value)) {
@@ -110,18 +121,18 @@ class InitiativeOrder extends Component {
         } else {
           return item;
         }
-      }); //.sort(this.compareEntries);
-
-      // const newItems = [...initiativeOrder].sort(this.compareEntries);
+      });
 
       return {
-        initiativeOrder
+        allEntries
       };
-    });
+    }
+    , () => { this.sortEntries(); }
+    );
   }
 
   render() {
-    const { initiativeOrder, rollConflicts, modifierConflicts, focusLastItem } = this.state;
+    const { initiativeOrder, needRerolls, needModifiers, focusLastItem } = this.state;
 
     return (
       <div className="">
@@ -134,89 +145,25 @@ class InitiativeOrder extends Component {
           <div className="header">
             <div className="header__number" />
             <div className="header__character">Character</div>
-            <div className="header__roll">D20 Roll</div>
-            <div className="header__modifier">Modifier</div>
             <div className="header__initiative">Initiative</div>
           </div>
           <div className="entries">
             {/* there's a better way to write this */}
-            {initiativeOrder.length > 0 &&
-              initiativeOrder.map((item, index) => {
+            { initiativeOrder.filter(x => { return true; }).map((item, index) => {
                 return (
                   <InitiativeEntry
-                    orderNum={index + 1}
+                    displayNum={index + 1}
                     id={item.id}
                     key={item.id}
                     name={item.name}
-                    initiativeRoll={item.initiativeRoll}
-                    modifier={item.modifier}
+                    initiative={item.initiative}
                     comments={item.comments}
-                    shouldAutoRoll={item.shouldAutoRoll}
                     onUpdate={this.updateEntry}
                     deleteCallback={this.killChild}
+                    triggerSortCallback={this.sortEntries}
                     focusMe={
                       focusLastItem && index === initiativeOrder.length - 1
                     }
-                  />
-                );
-              })}
-          </div>
-        </div>
-        <div className="need_modifiers">
-          <h2>Need Modifiers</h2>
-          <div className="header">
-            <div className="header__number" />
-            <div className="header__character">Character</div>
-            <div className="header__roll">D20 Roll</div>
-            <div className="header__modifier">Modifier</div>
-            <div className="header__initiative">Initiative</div>
-          </div>
-          <div className="entries">
-            {/* there's a better way to write this */}
-            {rollConflicts.length > 0 &&
-              rollConflicts.map((item, index) => {
-                return (
-                  <InitiativeEntry
-                    orderNum={index + 1}
-                    id={item.id}
-                    key={item.id}
-                    name={item.name}
-                    initiativeRoll={item.initiativeRoll}
-                    modifier={item.modifier}
-                    comments={item.comments}
-                    shouldAutoRoll={item.shouldAutoRoll}
-                    onUpdate={this.updateEntry}
-                    deleteCallback={this.killChild}
-                  />
-                );
-              })}
-          </div>
-        </div>
-        <div className="need_rerolls">
-          <h2>Need Rerolls</h2>
-          <div className="header">
-            <div className="header__number" />
-            <div className="header__character">Character</div>
-            <div className="header__roll">D20 Roll</div>
-            <div className="header__modifier">Modifier</div>
-            <div className="header__initiative">Initiative</div>
-          </div>
-          <div className="entries">
-            {/* there's a better way to write this */}
-            {modifierConflicts.length > 0 &&
-              modifierConflicts.map((item, index) => {
-                return (
-                  <InitiativeEntry
-                    orderNum={index + 1}
-                    id={item.id}
-                    key={item.id}
-                    name={item.name}
-                    initiativeRoll={item.initiativeRoll}
-                    modifier={item.modifier}
-                    comments={item.comments}
-                    shouldAutoRoll={item.shouldAutoRoll}
-                    onUpdate={this.updateEntry}
-                    deleteCallback={this.killChild}
                   />
                 );
               })}

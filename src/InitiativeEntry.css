@@ -1,7 +1,7 @@
 input, textarea {
     font-family: "modesto-text", serif;
     background: none;
-    border: none;
+    /* border: none; */
     font-size: 18px;
     width: 95%;
 }
@@ -28,18 +28,19 @@ textarea {
     overflow: hidden;
 }
 
-.orderNumber { 
+.displayNumber { 
     width: 5%;
     font-size: 18px;
 }
-.name { width: 40% }
-.initiative_roll { width: 15% }
-.modifier { width : 15% }
+.name { width: 30% }
 .initiative { 
     text-align: center;
-    width : 15%;
+    width : 10%;
     font-size: 32px;
 }
+.modifier { width : 10% }
+.reroll { width: 5%; }
+
 .comments {
     margin-top: 10px;
     padding-top: 10px;

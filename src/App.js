@@ -13,48 +13,43 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    // load these from local storage
     this.state={
       entries: [
         {
           id: 123,
           name: "Anya",
-          initiativeRoll: 6,
-          modifier: 2,
+          initiative: 18,
         },
         {
           id: 234,
           name: "Wizowski",
-          initiativeRoll: 6,
-          modifier: 3,
+          initiative: 15,
         },
         {
           id: 1233,
           name: "Milo",
-          initiativeRoll: 6,
-          modifier: 2,
+          initiative: 15,
         },
-        {
-          id: 23444,
-          name: "Shandri",
-          initiativeRoll: 4,
-        },
-        {
-          id: 2352334,
-          name: "Raj",
-          initiativeRoll: 4,
-        },
-        {
-          id: 22333333352334,
-          name: "Xhauk",
-          initiativeRoll: 18,
-        },
-        {
-          id: 223352334,
-          name: "Kriv",
-          initiativeRoll: 20,
-          modifier: 10,
-        },
+        // {
+        //   id: 23444,
+        //   name: "Shandri",
+        //   initiative: 15,
+        // },
+        // {
+        //   id: 2352334,
+        //   name: "Raj",
+        //   initiative: 12,
+        // },
+        // {
+        //   id: 22333333352334,
+        //   name: "Xhauk",
+        //   initiative: 12,
+        // },
+        // {
+        //   id: 223352334,
+        //   name: "Kriv",
+        //   initiative: 12,
+        // },
       ]
     }
   }

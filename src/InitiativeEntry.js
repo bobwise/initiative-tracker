@@ -4,12 +4,6 @@ import DeleteIcon from './DeleteIcon';
 
 import './InitiativeEntry.css';
 
-// displays the entry
-// needs state because it will eventually be a read/write situation
-// sometimes it's in read mode, sometimes not
-// if only one is ever in write mode, then the parent needs to track the currently active
-// should Read/Write be separate components?
-
 class InitiativeEntry extends Component{
   constructor(props) {
     super(props);
@@ -38,18 +32,17 @@ class InitiativeEntry extends Component{
     const {
       id,
       name,
-      modifier,
-      initiativeRoll,
-      shouldAutoroll,
+      initiative,
       comments,
-      orderNum,
+      displayNum,
       deleteCallback,
+      triggerSortCallback,
     } = this.props;
 
     return (
       <div className="initiative_entry">
         <div>
-          <div className='orderNumber'>{orderNum}</div>
+          <div className='displayNumber'>{displayNum}</div>
           <div className='actions'>
             {/* call up to my parent and tell them to kill me */}
             <div className='deleteIcon' onClick={ () =>  { deleteCallback(id); } }>
@@ -57,20 +50,15 @@ class InitiativeEntry extends Component{
             </div>
           </div>
           <div className='name'>
-            <input ref={this.nameRef} type='text' name='name' value={name} onChange={this.handleInputChange}/>
+            <input ref={this.nameRef} type='text' name='name' value={name}
+              onClick={(e) => {e.target.select();}}
+              onChange={this.handleInputChange}/>
           </div>
           <div className='initiative_roll'>
-            <input type='text' name='initiativeRoll' value={initiativeRoll} onChange={this.handleInputChange}/>
+            <input type='text' name='initiative' value={initiative}
+              onClick={(e) => {e.target.select();}} onChange={this.handleInputChange}
+              onBlur={triggerSortCallback}/>
           </div>
-          <div className='modifier'>
-            <input type='text' name='modifier' value={modifier} onChange={this.handleInputChange}/>
-          </div>
-          <div className='initiative'>
-            {initiativeRoll + modifier}
-          </div>
-          {/* <div className='shouldAutoroll'>
-            <input type='checkbox' name='shouldAutoroll' onChange={this.handleInputChange} checked={shouldAutoroll} />
-          </div> */}
         </div>
         {/* <div className='comments'>
           <textarea rows={1} type='text' name='comments' value={comments} onChange={this.handleInputChange} />
@@ -83,31 +71,25 @@ class InitiativeEntry extends Component{
 InitiativeEntry.propTypes = {
   id: PropTypes.number,
   name: PropTypes.string,
-  // make sure this works with negatives
-  modifier: PropTypes.number,
-  // actual value is stored in state
-  // if modifier not available, this is assumed
-  // to be the state value
-  initiativeRoll: PropTypes.number,
-  // whether or not to include on an Autoroll
-  shouldAutoroll: PropTypes.bool,
+  initiative: PropTypes.number,
+  tiebreakerOrder: PropTypes.number,
   // just text to display.
   // Things like "slowed" or "death saving" "on fire" etc
   comments: PropTypes.string,
-  orderNum: PropTypes.number,
+  // visible number to display
+  displayNum: PropTypes.number,
   onUpdate: PropTypes.func,
   // if true, this component will attempt to apply focus 
   // to the first input in the form after it renders
   focusMe: PropTypes.bool,
   deleteCallback: PropTypes.func,
+  triggerSortCallback: PropTypes.func,
 };
 
 InitiativeEntry.defaultProps = {
-  shouldAutoroll: false,
-  initiativeRoll: 0,
-  modifier: 0,
+  initiative: 0,
   name: "Character Name",
-  orderNum: 1,
+  displayNum: 1,
   deleteCallback: () => {},
 }
 
