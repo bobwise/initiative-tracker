@@ -1,9 +1,14 @@
+.header {
+    display: grid;
+    grid-template-columns: 30px 50px auto auto;
+}
+
 input, textarea {
     font-family: "modesto-text", serif;
     background: none;
-    /* border: none; */
+    border: none;
     font-size: 18px;
-    width: 95%;
+    width: 100%;
 }
 
 textarea {
@@ -13,14 +18,18 @@ textarea {
 }
 
 .initiative_entry {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    border: 3px solid brown;
+    display: grid;
+    grid-template-columns: 30px 50px auto auto;
+    grid-template-rows: auto;
+    border: 1px solid brown;
     border-radius: 4px;
     padding: 5px 15px;
-    margin-bottom: 15px;
+    /* margin-bottom: 5px; */
     background-color: beige;
+}
+
+.input input {
+    border-bottom: 1px solid brown;
 }
 
 .initiative_entry div {
@@ -29,23 +38,17 @@ textarea {
 }
 
 .displayNumber { 
-    width: 5%;
     font-size: 18px;
+    align-self: center;
 }
-.name { width: 30% }
-.initiative { 
-    text-align: center;
-    width : 10%;
-    font-size: 32px;
+.actions { 
+    align-self: center;
 }
-.modifier { width : 10% }
-.reroll { width: 5%; }
-
-.comments {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed brown;
-    width: 100%;
+.name { 
+    align-self: center;
+}
+.initiative_roll { 
+    align-self: center;
 }
 
 .deleteIcon {

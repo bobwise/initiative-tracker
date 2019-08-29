@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import InitiativeOrder from './InitiativeOrder.js';
-import InitiativeEntry from './InitiativeEntry.js';
 import './App.css';
 
 // on load, pull data from local storage
@@ -63,7 +62,7 @@ class App extends Component {
           Initiative Tracker
         </h1>
         <InitiativeOrder 
-          initialEntries = { entries } 
+          // initialEntries = { entries } 
         >
         </InitiativeOrder>
         <div>

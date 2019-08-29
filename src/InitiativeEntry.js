@@ -4,7 +4,7 @@ import DeleteIcon from './DeleteIcon';
 
 import './InitiativeEntry.css';
 
-class InitiativeEntry extends Component{
+class InitiativeEntry extends Component {
   constructor(props) {
     super(props);
     this.nameRef = React.createRef();
@@ -28,12 +28,18 @@ class InitiativeEntry extends Component{
     }
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.focusMe) {
+      // console.log('applying focus to ' + this.nameRef.current.html);
+      this.nameRef.current.focus();
+    }
+  }
+
   render() {
     const {
       id,
       name,
       initiative,
-      comments,
       displayNum,
       deleteCallback,
       triggerSortCallback,
@@ -41,28 +47,26 @@ class InitiativeEntry extends Component{
 
     return (
       <div className="initiative_entry">
-        <div>
-          <div className='displayNumber'>{displayNum}</div>
-          <div className='actions'>
-            {/* call up to my parent and tell them to kill me */}
-            <div className='deleteIcon' onClick={ () =>  { deleteCallback(id); } }>
-              <DeleteIcon />
-            </div>
-          </div>
-          <div className='name'>
-            <input ref={this.nameRef} type='text' name='name' value={name}
-              onClick={(e) => {e.target.select();}}
-              onChange={this.handleInputChange}/>
-          </div>
-          <div className='initiative_roll'>
-            <input type='text' name='initiative' value={initiative}
-              onClick={(e) => {e.target.select();}} onChange={this.handleInputChange}
-              onBlur={triggerSortCallback}/>
-          </div>
+        <div className='displayNumber'>{displayNum}</div>
+        <div className='actions'>
+          {/* call up to my parent and tell them to kill me */}
+          {deleteCallback && <div className='deleteIcon' onClick={() => { deleteCallback(id); }}>
+            <DeleteIcon />
+          </div>}
         </div>
-        {/* <div className='comments'>
-          <textarea rows={1} type='text' name='comments' value={comments} onChange={this.handleInputChange} />
-        </div> */}
+        <div className='name'>
+          <input ref={this.nameRef} type='text' name='name' value={name}
+            onClick={(e) => { e.target.select(); }}
+            onChange={this.handleInputChange} />
+        </div>
+        <div className='initiative_roll'>
+          <input type='text' name='initiative' value={initiative}
+            onClick={(e) => { e.target.select(); }} onChange={this.handleInputChange}
+            onBlur={() => {
+              triggerSortCallback();
+              this.nameRef.current.focus();
+            }} />
+        </div>
       </div>
     );
   }
@@ -77,7 +81,7 @@ InitiativeEntry.propTypes = {
   // Things like "slowed" or "death saving" "on fire" etc
   comments: PropTypes.string,
   // visible number to display
-  displayNum: PropTypes.number,
+  displayNum: PropTypes.string,
   onUpdate: PropTypes.func,
   // if true, this component will attempt to apply focus 
   // to the first input in the form after it renders
@@ -87,10 +91,6 @@ InitiativeEntry.propTypes = {
 };
 
 InitiativeEntry.defaultProps = {
-  initiative: 0,
-  name: "Character Name",
-  displayNum: 1,
-  deleteCallback: () => {},
 }
 
 export default InitiativeEntry;

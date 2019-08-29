@@ -8,17 +8,17 @@ class InitiativeOrder extends Component {
   constructor(props) {
     super(props);
 
-    this.addBlankEntry = this.addBlankEntry.bind(this);
+    this.addEntry = this.addEntry.bind(this);
     this.updateEntry = this.updateEntry.bind(this);
     this.killChild = this.killChild.bind(this);
     this.sortEntries = this.sortEntries.bind(this);
+    this.updateNewEntry = this.updateNewEntry.bind(this);
 
     this.state = {
       // give them ids if they don't have them
       allEntries: props.initialEntries ? props.initialEntries : [],
       initiativeOrder: [],
-      needModifiers: [],
-      needRerolls: [],
+      newEntry: {  }
     };
   }
 
@@ -32,13 +32,13 @@ class InitiativeOrder extends Component {
     let b_value = b.initiative;
 
     if (a_value > b_value) {
-      console.log(a_value + " is greater than " + b_value);
+      // console.log(a_value + " is greater than " + b_value);
       comparison = 1;
     } else if (b_value > a_value) {
-      console.log(a_value + " is less than " + b_value);
+      // console.log(a_value + " is less than " + b_value);
       comparison = -1;
     } else {
-      console.log(a_value + " is equal to " + b_value);
+      // console.log(a_value + " is equal to " + b_value);
       comparison = 0;
     }
     // reverse the array
@@ -51,34 +51,35 @@ class InitiativeOrder extends Component {
 
     const sortedItems = [...allEntries].sort(this.compareEntries);
 
-    const newInitiative = sortedItems.filter(x => { return !x.needsModifier && !x.needsRolls })
-    const newNeedModifiers = sortedItems.filter(x => { return x.needsModifier });
-    const newneedRerolls = sortedItems.filter(x => { return x.needRerolls });
+    const newInitiative = sortedItems;
 
     this.setState({
       initiativeOrder: newInitiative,
-      needModifiers: newNeedModifiers,
-      needRerolls: newneedRerolls,
     });
   }
 
-  addBlankEntry() {
+  addEntry() {
     const { allEntries } = this.state;
 
-    // this should probably be moved somewhere else. entry section at top of screen?
-    let newItems = [...allEntries];
-    newItems.push({
-      id: parseInt(uniqueId())
-    });
+    if (!isNaN(this.state.newEntry.initiative)){
+      let newItems = [...allEntries];
 
-    this.setState({
-      allEntries: newItems,
-      focusLastItem: true
-    });
+      const newEntry = this.state.newEntry;
+      newEntry.id = parseInt(uniqueId());
+
+      newItems.push(newEntry);
+  
+      this.setState({
+        allEntries: newItems,
+        newEntry: {
+          name: '',
+          initiative: 0,
+         },
+      }, () => { this.sortEntries(); });
+    }
   }
 
   killChild(child) {
-    console.log("kill child " + child);
     const { initiativeOrder } = this.state;
 
     // delete all reference to child
@@ -86,19 +87,33 @@ class InitiativeOrder extends Component {
 
     this.setState({
       initiativeOrder: newItems
-      // set focus where???
     });
   }
 
-  updateEntry(id, propName, value) {
-    // console.log("updating " + propName + " to " + value);
+  updateNewEntry(id, propName, value) {
+    const { newEntry } = this.state;
 
-    // this whole block is too clever for its own good
+    if (propName === "initiative") {
+      value = parseInt(value);
+
+      if (isNaN(value)) {
+        newEntry.initiative = 0;
+      } else {
+        newEntry.initiative = parseInt(value);
+      }
+    } else if (propName === "name"){
+      newEntry.name = value;
+    }
+
+    this.setState({ newEntry });
+  }
+
+  updateEntry(id, propName, value) {
     this.setState(state => {
       const allEntries = state.allEntries.map((item, index) => {
         if (item.id === id) {
           // this still feels like a hack
-          if (propName === "initiative" || propName === "modifier" || propName === "reroll") {
+          if (propName === "initiative") {
             value = parseInt(value);
 
             if (isNaN(value)) {
@@ -127,46 +142,54 @@ class InitiativeOrder extends Component {
         allEntries
       };
     }
-    , () => { this.sortEntries(); }
+      , () => { this.sortEntries(); }
     );
   }
 
   render() {
-    const { initiativeOrder, needRerolls, needModifiers, focusLastItem } = this.state;
+    const { 
+      initiativeOrder, 
+    } = this.state;
 
     return (
       <div className="">
         <div className="initiative_order">
-          <h2>Initiative Order</h2>
           <div className="controls">
             {/* <button>Autoroll</button> */}
-            <button onClick={this.addBlankEntry}>Add Entry</button>
+            {/* <button onClick={this.addBlankEntry}>Add Entry</button> */}
           </div>
           <div className="header">
             <div className="header__number" />
+            <div className="header__action" />
             <div className="header__character">Character</div>
             <div className="header__initiative">Initiative</div>
           </div>
+          <div className="input">
+            <InitiativeEntry
+              name={this.state.newEntry.name}
+              initiative={this.state.newEntry.initiative}
+              onUpdate={this.updateNewEntry}
+              triggerSortCallback={this.addEntry}
+              focusMe={ this.state.newEntry.name === '' }
+            />
+          </div>
+          <hr/>
           <div className="entries">
-            {/* there's a better way to write this */}
-            { initiativeOrder.filter(x => { return true; }).map((item, index) => {
-                return (
-                  <InitiativeEntry
-                    displayNum={index + 1}
-                    id={item.id}
-                    key={item.id}
-                    name={item.name}
-                    initiative={item.initiative}
-                    comments={item.comments}
-                    onUpdate={this.updateEntry}
-                    deleteCallback={this.killChild}
-                    triggerSortCallback={this.sortEntries}
-                    focusMe={
-                      focusLastItem && index === initiativeOrder.length - 1
-                    }
-                  />
-                );
-              })}
+            {initiativeOrder.filter(x => { return true; }).map((item, index) => {
+              return (
+                <InitiativeEntry
+                  displayNum={(index + 1).toString()}
+                  id={item.id}
+                  key={item.id}
+                  name={item.name}
+                  initiative={item.initiative}
+                  comments={item.comments}
+                  onUpdate={this.updateEntry}
+                  deleteCallback={this.killChild}
+                  triggerSortCallback={this.sortEntries}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
