@@ -80,13 +80,15 @@ class InitiativeOrder extends Component {
   }
 
   killChild(child) {
-    const { initiativeOrder } = this.state;
+    const { initiativeOrder, allEntries } = this.state;
 
     // delete all reference to child
-    let newItems = initiativeOrder.filter(e => e.id !== child);
+    let newInitiativeOrder = initiativeOrder.filter(e => e.id !== child);
+    let newAllEntries = allEntries.filter(e => e.id !== child);
 
     this.setState({
-      initiativeOrder: newItems
+      initiativeOrder: newInitiativeOrder,
+      allEntries: newAllEntries,
     });
   }
 
@@ -158,12 +160,7 @@ class InitiativeOrder extends Component {
             {/* <button>Autoroll</button> */}
             {/* <button onClick={this.addBlankEntry}>Add Entry</button> */}
           </div>
-          <div className="header">
-            <div className="header__number" />
-            <div className="header__action" />
-            <div className="header__character">Character</div>
-            <div className="header__initiative">Initiative</div>
-          </div>
+          
           <div className="input">
             <InitiativeEntry
               name={this.state.newEntry.name}
@@ -173,7 +170,13 @@ class InitiativeOrder extends Component {
               focusMe={ this.state.newEntry.name === '' }
             />
           </div>
-          <hr/>
+          
+          <div className="header">
+            <div className="header__number" />
+            <div className="header__action" />
+            <div className="header__character">Character</div>
+            <div className="header__initiative">Initiative</div>
+          </div>
           <div className="entries">
             {initiativeOrder.filter(x => { return true; }).map((item, index) => {
               return (

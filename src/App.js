@@ -29,16 +29,16 @@ class App extends Component {
           name: "Milo",
           initiative: 15,
         },
-        // {
-        //   id: 23444,
-        //   name: "Shandri",
-        //   initiative: 15,
-        // },
-        // {
-        //   id: 2352334,
-        //   name: "Raj",
-        //   initiative: 12,
-        // },
+        {
+          id: 23444,
+          name: "Shandri",
+          initiative: 15,
+        },
+        {
+          id: 2352334,
+          name: "Raj",
+          initiative: 12,
+        },
         // {
         //   id: 22333333352334,
         //   name: "Xhauk",
@@ -62,7 +62,7 @@ class App extends Component {
           Initiative Tracker
         </h1>
         <InitiativeOrder 
-          // initialEntries = { entries } 
+          initialEntries = { entries } 
         >
         </InitiativeOrder>
         <div>
