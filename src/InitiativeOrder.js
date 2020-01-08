@@ -13,6 +13,7 @@ class InitiativeOrder extends Component {
     this.killChild = this.killChild.bind(this);
     this.sortEntries = this.sortEntries.bind(this);
     this.updateNewEntry = this.updateNewEntry.bind(this);
+    this.clearEntries = this.clearEntries.bind(this);
 
     this.state = {
       // give them ids if they don't have them
@@ -24,6 +25,13 @@ class InitiativeOrder extends Component {
 
   componentDidMount() {
     this.sortEntries();
+  }
+
+  clearEntries() {
+    this.setState({
+      allEntries: [],
+      initiativeOrder: []
+    })
   }
 
   compareEntries(a, b) {
@@ -61,22 +69,22 @@ class InitiativeOrder extends Component {
   addEntry() {
     const { allEntries } = this.state;
 
-    if (!isNaN(this.state.newEntry.initiative)){
-      let newItems = [...allEntries];
+    let newItems = [...allEntries];
 
+    if (!isNaN(this.state.newEntry.initiative) && this.state.newEntry.name.trim() !== ""){
       const newEntry = this.state.newEntry;
       newEntry.id = parseInt(uniqueId());
 
       newItems.push(newEntry);
-  
-      this.setState({
-        allEntries: newItems,
-        newEntry: {
-          name: '',
-          initiative: 0,
-         },
-      }, () => { this.sortEntries(); });
     }
+
+    this.setState({
+      allEntries: newItems,
+      newEntry: {
+        name: '',
+        initiative: '',
+       },
+    }, () => { this.sortEntries(); });
   }
 
   killChild(child) {
@@ -149,18 +157,14 @@ class InitiativeOrder extends Component {
   }
 
   render() {
-    const { 
-      initiativeOrder, 
+    const {
+      initiativeOrder,
     } = this.state;
 
     return (
       <div className="">
         <div className="initiative_order">
-          <div className="controls">
-            {/* <button>Autoroll</button> */}
-            {/* <button onClick={this.addBlankEntry}>Add Entry</button> */}
-          </div>
-          
+
           <div className="input">
             <InitiativeEntry
               name={this.state.newEntry.name}
@@ -170,10 +174,14 @@ class InitiativeOrder extends Component {
               focusMe={ this.state.newEntry.name === '' }
             />
           </div>
-          
+
+          <button className="clearButton" onClick={this.clearEntries}>Clear All</button>
+
           <div className="header">
             <div className="header__number" />
-            <div className="header__action" />
+            <div className="header__action">
+
+            </div>
             <div className="header__character">Character</div>
             <div className="header__initiative">Initiative</div>
           </div>

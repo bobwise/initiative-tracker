@@ -14,31 +14,31 @@ class App extends Component {
 
     this.state={
       entries: [
-        {
-          id: 123,
-          name: "Anya",
-          initiative: 18,
-        },
-        {
-          id: 234,
-          name: "Wizowski",
-          initiative: 15,
-        },
-        {
-          id: 1233,
-          name: "Milo",
-          initiative: 15,
-        },
-        {
-          id: 23444,
-          name: "Shandri",
-          initiative: 15,
-        },
-        {
-          id: 2352334,
-          name: "Raj",
-          initiative: 12,
-        },
+        // {
+        //   id: 123,
+        //   name: "Anya",
+        //   initiative: 18,
+        // },
+        // {
+        //   id: 234,
+        //   name: "Wizowski",
+        //   initiative: 15,
+        // },
+        // {
+        //   id: 1233,
+        //   name: "Milo",
+        //   initiative: 15,
+        // },
+        // {
+        //   id: 23444,
+        //   name: "Shandri",
+        //   initiative: 15,
+        // },
+        // {
+        //   id: 2352334,
+        //   name: "Raj",
+        //   initiative: 12,
+        // },
         // {
         //   id: 22333333352334,
         //   name: "Xhauk",
@@ -61,8 +61,8 @@ class App extends Component {
         <h1>
           Initiative Tracker
         </h1>
-        <InitiativeOrder 
-          initialEntries = { entries } 
+        <InitiativeOrder
+          initialEntries = { entries }
         >
         </InitiativeOrder>
         <div>

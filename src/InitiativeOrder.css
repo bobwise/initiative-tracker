@@ -16,8 +16,10 @@
 .header__character {
   width: 40%;
   font-size: 24px;
+  margin: 0px auto;
 }
 .header__initiative {
+  margin: 0px auto;
   width: 15%;
   font-size: 24px;
 }
@@ -30,4 +32,8 @@
 
 .entries {
 	margin-bottom: 10px;
+}
+
+.clearButton {
+  margin-top: 10px;
 }
