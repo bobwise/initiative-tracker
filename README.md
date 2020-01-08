@@ -18,3 +18,4 @@ A tool for quickly gathering names and initative rolls and then autosorting them
 - full keyboard support (including reordering)
 - quick link to The Official Initiative Rules
 - demo gif in the readme
+- add button in tab order after Initiative entry

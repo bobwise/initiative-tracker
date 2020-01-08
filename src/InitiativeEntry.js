@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import DeleteIcon from "./DeleteIcon";
+import HamburgerIcon from "./HamburgerIcon";
 import { Draggable } from "react-beautiful-dnd";
 import "./InitiativeEntry.css";
 import classNames from 'classnames';
@@ -39,18 +40,8 @@ class InitiativeEntry extends Component {
               'is_dragging': snapshot.isDragging
             })}
            {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-            <div className="actions">
-              {/* call up to my parent and tell them to kill me */}
-              {deleteCallback && (
-                <div
-                  className="deleteIcon"
-                  onClick={() => {
-                    deleteCallback(id);
-                  }}
-                >
-                  <DeleteIcon />
-                </div>
-              )}
+            <div className="grabber hamburgerIcon" {...provided.dragHandleProps}>
+              <HamburgerIcon></HamburgerIcon>
             </div>
             <div className="name">
               <input
@@ -77,6 +68,19 @@ class InitiativeEntry extends Component {
                   triggerSortCallback();
                 }}
               />
+            </div>
+            <div className="actions">
+              {/* call up to my parent and tell them to kill me */}
+              {deleteCallback && (
+                <div
+                  className="deleteIcon"
+                  onClick={() => {
+                    deleteCallback(id);
+                  }}
+                >
+                  <DeleteIcon />
+                </div>
+              )}
             </div>
           </div>
         )}

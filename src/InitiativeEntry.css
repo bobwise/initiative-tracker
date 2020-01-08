@@ -16,7 +16,7 @@ textarea {
 
 .initiative_entry {
   display: grid;
-  grid-template-columns: 30px auto auto;
+  grid-template-columns: 25px auto 30px 30px;
   grid-template-rows: auto;
   border: 1px solid brown;
   border-radius: 4px;
@@ -31,7 +31,8 @@ textarea {
 
 .initiative_entry input {
   /* border: 1px solid hotpink; */
-  width: 50%;
+  text-align: left;
+  /* width: 50%; */
 }
 
 .input {
@@ -67,17 +68,22 @@ textarea {
 }
 
 .initiative_entry .deleteIcon {
-  display: none;
+  display: none ;
+  float: right;
 }
 
 .initiative_entry:hover .deleteIcon {
   display: block;
 }
 
-.deleteIcon {
+.deleteIcon, .hamburgerIcon {
   height: 16px;
 	width: 16px;
   opacity: .25;
+}
+
+.hamburgerIcon {
+  padding-top: 2px;
 }
 
 .deleteIcon:hover {
