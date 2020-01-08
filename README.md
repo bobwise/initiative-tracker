@@ -16,3 +16,5 @@ A tool for quickly gathering names and initative rolls and then autosorting them
 ## Coming Soon
 
 - Drag and drop to reorder initiative
+- full keyboard support (including reordering)
+- quick link to The Official Initiative Rules

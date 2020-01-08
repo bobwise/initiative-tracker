@@ -1,37 +1,6 @@
-.controls {
-  margin-bottom: 15px;
-}
-
-.header {
-  padding: 15px;
-}
-
-.header div {
-  display: inline-block;
-}
-
-.header__number {
-  width: 5%;
-}
-.header__character {
-  width: 40%;
-  font-size: 24px;
-  margin: 0px auto;
-}
-.header__initiative {
-  margin: 0px auto;
-  width: 15%;
-  font-size: 24px;
-}
-.header__modifier {
-  width: 15%;
-}
-.header__roll {
-  width: 5%;
-}
-
 .entries {
-	margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .clearButton {

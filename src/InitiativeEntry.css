@@ -1,8 +1,3 @@
-.header {
-  display: grid;
-  grid-template-columns: 30px 50px auto auto;
-}
-
 input,
 textarea {
   font-family: "modesto-text", serif;
@@ -21,7 +16,7 @@ textarea {
 
 .initiative_entry {
   display: grid;
-  grid-template-columns: 30px 30px auto auto;
+  grid-template-columns: 30px auto auto;
   grid-template-rows: auto;
   border: 1px solid brown;
   border-radius: 4px;
@@ -30,9 +25,17 @@ textarea {
   background-color: beige;
 }
 
+.input {
+  display: flex;
+}
+
+.input div {
+  width: 50%;
+  padding-right: 5px;
+}
+
 .input input {
   border-bottom: 1px solid brown;
-  margin-right: 25px;
 }
 
 .initiative_entry div {
@@ -54,10 +57,18 @@ textarea {
 	align-self: center;
 }
 
+.initiative_entry .deleteIcon {
+  display: none;
+}
+
+.initiative_entry:hover .deleteIcon {
+  display: block;
+}
+
 .deleteIcon {
   height: 16px;
 	width: 16px;
-	opacity: .25;
+  opacity: .25;
 }
 
 .deleteIcon:hover {

@@ -12,26 +12,63 @@ class InitiativeOrder extends Component {
     this.updateEntry = this.updateEntry.bind(this);
     this.killChild = this.killChild.bind(this);
     this.sortEntries = this.sortEntries.bind(this);
-    this.updateNewEntry = this.updateNewEntry.bind(this);
     this.clearEntries = this.clearEntries.bind(this);
+    this.updateNewName = this.updateNewName.bind(this);
+    this.updateNewInit = this.updateNewInit.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+
+    this.nameInputRef = React.createRef();
+    this.initInputRef = React.createRef();
 
     this.state = {
-      // give them ids if they don't have them
       allEntries: props.initialEntries ? props.initialEntries : [],
       initiativeOrder: [],
-      newEntry: {  }
+      newEntry: {
+        name: "",
+        initiative: ""
+      }
     };
+  }
+
+  updateNewName(event) {
+    this.setState({
+      newEntry: {
+        ...this.state.newEntry,
+        name: event.target.value
+      }
+    });
+  }
+
+  updateNewInit(event) {
+    this.setState({
+      newEntry: {
+        ...this.state.newEntry,
+        initiative: parseInt(event.target.value)
+      }
+    });
   }
 
   componentDidMount() {
     this.sortEntries();
   }
 
+  handleKeyPress(e) {
+    if (e.charCode === 13) { // enter
+      this.addEntry();
+      this.nameInputRef.current.focus();
+      // set focus
+    }
+  }
+
   clearEntries() {
     this.setState({
       allEntries: [],
-      initiativeOrder: []
-    })
+      initiativeOrder: [],
+      newEntry: {
+        name: "",
+        initiative: ""
+      }
+    });
   }
 
   compareEntries(a, b) {
@@ -53,7 +90,6 @@ class InitiativeOrder extends Component {
     return comparison * -1;
   }
 
-  // go through initiativeOrder and pull out the conflicts
   sortEntries() {
     const { allEntries } = this.state;
 
@@ -62,7 +98,7 @@ class InitiativeOrder extends Component {
     const newInitiative = sortedItems;
 
     this.setState({
-      initiativeOrder: newInitiative,
+      initiativeOrder: newInitiative
     });
   }
 
@@ -71,20 +107,28 @@ class InitiativeOrder extends Component {
 
     let newItems = [...allEntries];
 
-    if (!isNaN(this.state.newEntry.initiative) && this.state.newEntry.name.trim() !== ""){
+    if (
+      !isNaN(this.state.newEntry.initiative) &&
+      this.state.newEntry.name.trim() !== ""
+    ) {
       const newEntry = this.state.newEntry;
       newEntry.id = parseInt(uniqueId());
 
       newItems.push(newEntry);
     }
 
-    this.setState({
-      allEntries: newItems,
-      newEntry: {
-        name: '',
-        initiative: '',
-       },
-    }, () => { this.sortEntries(); });
+    this.setState(
+      {
+        allEntries: newItems,
+        newEntry: {
+          name: "",
+          initiative: ""
+        }
+      },
+      () => {
+        this.sortEntries();
+      }
+    );
   }
 
   killChild(child) {
@@ -96,97 +140,93 @@ class InitiativeOrder extends Component {
 
     this.setState({
       initiativeOrder: newInitiativeOrder,
-      allEntries: newAllEntries,
+      allEntries: newAllEntries
     });
   }
 
-  updateNewEntry(id, propName, value) {
-    const { newEntry } = this.state;
-
-    if (propName === "initiative") {
-      value = parseInt(value);
-
-      if (isNaN(value)) {
-        newEntry.initiative = 0;
-      } else {
-        newEntry.initiative = parseInt(value);
-      }
-    } else if (propName === "name"){
-      newEntry.name = value;
-    }
-
-    this.setState({ newEntry });
-  }
-
   updateEntry(id, propName, value) {
-    this.setState(state => {
-      const allEntries = state.allEntries.map((item, index) => {
-        if (item.id === id) {
-          // this still feels like a hack
-          if (propName === "initiative") {
-            value = parseInt(value);
+    this.setState(
+      state => {
+        const allEntries = state.allEntries.map((item, index) => {
+          if (item.id === id) {
+            // this still feels like a hack
+            if (propName === "initiative") {
+              value = parseInt(value);
 
-            if (isNaN(value)) {
-              return {
-                ...item,
-                [propName]: 0
-              };
-            } else {
-              return {
-                ...item,
-                [propName]: parseInt(value)
-              };
+              if (isNaN(value)) {
+                return {
+                  ...item,
+                  [propName]: 0
+                };
+              } else {
+                return {
+                  ...item,
+                  [propName]: parseInt(value)
+                };
+              }
             }
+
+            return {
+              ...item,
+              [propName]: value
+            };
+          } else {
+            return item;
           }
+        });
 
-          return {
-            ...item,
-            [propName]: value
-          };
-        } else {
-          return item;
-        }
-      });
-
-      return {
-        allEntries
-      };
-    }
-      , () => { this.sortEntries(); }
+        return {
+          allEntries
+        };
+      },
+      () => {
+        this.sortEntries();
+      }
     );
   }
 
   render() {
-    const {
-      initiativeOrder,
-    } = this.state;
+    const { initiativeOrder } = this.state;
 
     return (
-      <div className="">
-        <div className="initiative_order">
-
-          <div className="input">
-            <InitiativeEntry
-              name={this.state.newEntry.name}
-              initiative={this.state.newEntry.initiative}
-              onUpdate={this.updateNewEntry}
-              triggerSortCallback={this.addEntry}
-              focusMe={ this.state.newEntry.name === '' }
-            />
+      <div className="initiative_order">
+        <div className="input">
+          <div>
+            <label htmlFor="char_name">Name</label>
+            <input
+              type="text"
+              name="char_name"
+              id="char_name"
+              value={this.state.newEntry.name}
+              onClick={(e) => { e.target.select(); }}
+              onChange={this.updateNewName}
+              onKeyPress={this.handleKeyPress}
+              ref={this.nameInputRef}
+            ></input>
           </div>
-
-          <button className="clearButton" onClick={this.clearEntries}>Clear All</button>
-
-          <div className="header">
-            <div className="header__number" />
-            <div className="header__action">
-
-            </div>
-            <div className="header__character">Character</div>
-            <div className="header__initiative">Initiative</div>
+          <div>
+            <label htmlFor="init_val">Initiative</label>
+            <input
+              type="number"
+              name="init_val"
+              id="init_val"
+              value={this.state.newEntry.initiative}
+              onClick={(e) => { e.target.select(); }}
+              onChange={this.updateNewInit}
+              onKeyPress={this.handleKeyPress}
+              ref={this.initInputRef}
+            ></input>
           </div>
-          <div className="entries">
-            {initiativeOrder.filter(x => { return true; }).map((item, index) => {
+        </div>
+        {initiativeOrder.length > 0 && <button className="clearButton" onClick={this.clearEntries}>
+          Clear All
+        </button>}
+        <div className="entries">
+          {initiativeOrder
+            .filter(x => {
+              return true;
+            })
+            .map((item, index) => {
               return (
                 <InitiativeEntry
                   displayNum={(index + 1).toString()}
@@ -201,7 +241,6 @@ class InitiativeOrder extends Component {
                 />
               );
             })}
-          </div>
         </div>
       </div>
     );
