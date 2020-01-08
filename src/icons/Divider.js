@@ -11,13 +11,13 @@ const SvgDivider = props => (
     <defs>
       <style>{css}</style>
       <clipPath id="clip-path" transform="translate(-666 -479)">
-        <rect class="cls-1" x="666" y="479" width="226.08" height="3" />
+        <rect className="cls-1" x="666" y="479" width="226.08" height="3" />
       </clipPath>
     </defs>
     <title>stat-block-header-bar</title>
-    <g class="cls-2">
+    <g className="cls-2">
       <path
-        class="cls-3"
+        className="cls-3"
         d="M666,482c5.76,0,226.08-1.5,226.08-1.5S671.76,479,666,479Z"
         transform="translate(-666 -479)"
       />

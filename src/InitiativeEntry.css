@@ -25,6 +25,15 @@ textarea {
   background-color: beige;
 }
 
+.initiative_entry.is_dragging {
+  background-color: lightgray;
+}
+
+.initiative_entry input {
+  /* border: 1px solid hotpink; */
+  width: 50%;
+}
+
 .input {
   display: flex;
 }

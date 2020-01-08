@@ -2,7 +2,16 @@ import React, { Component } from "react";
 import InitiativeEntry from "./InitiativeEntry";
 import PropTypes from "prop-types";
 import "./InitiativeOrder.css";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 var uniqueId = require("lodash.uniqueid");
+
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
 
 class InitiativeOrder extends Component {
   constructor(props) {
@@ -16,6 +25,7 @@ class InitiativeOrder extends Component {
     this.updateNewName = this.updateNewName.bind(this);
     this.updateNewInit = this.updateNewInit.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
 
     this.nameInputRef = React.createRef();
     this.initInputRef = React.createRef();
@@ -28,6 +38,28 @@ class InitiativeOrder extends Component {
         initiative: ""
       }
     };
+  }
+
+  onDragEnd(result) {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const items = reorder(
+      this.state.initiativeOrder,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      allEntries: items,
+      initiativeOrder: items
+    });
+  }
+
+  componentDidMount() {
+    this.sortEntries();
   }
 
   updateNewName(event) {
@@ -48,12 +80,9 @@ class InitiativeOrder extends Component {
     });
   }
 
-  componentDidMount() {
-    this.sortEntries();
-  }
-
   handleKeyPress(e) {
-    if (e.charCode === 13) { // enter
+    if (e.charCode === 13) {
+      // enter
       this.addEntry();
       this.nameInputRef.current.focus();
       // set focus
@@ -198,7 +227,9 @@ class InitiativeOrder extends Component {
               name="char_name"
               id="char_name"
               value={this.state.newEntry.name}
-              onClick={(e) => { e.target.select(); }}
+              onClick={e => {
+                e.target.select();
+              }}
               onChange={this.updateNewName}
               onKeyPress={this.handleKeyPress}
               ref={this.nameInputRef}
@@ -211,37 +242,51 @@ class InitiativeOrder extends Component {
               name="init_val"
               id="init_val"
               value={this.state.newEntry.initiative}
-              onClick={(e) => { e.target.select(); }}
+              onClick={e => {
+                e.target.select();
+              }}
               onChange={this.updateNewInit}
               onKeyPress={this.handleKeyPress}
               ref={this.initInputRef}
             ></input>
           </div>
         </div>
-        {initiativeOrder.length > 0 && <button className="clearButton" onClick={this.clearEntries}>
-          Clear All
-        </button>}
-        <div className="entries">
-          {initiativeOrder
-            .filter(x => {
-              return true;
-            })
-            .map((item, index) => {
-              return (
-                <InitiativeEntry
-                  displayNum={(index + 1).toString()}
-                  id={item.id}
-                  key={item.id}
-                  name={item.name}
-                  initiative={item.initiative}
-                  comments={item.comments}
-                  onUpdate={this.updateEntry}
-                  deleteCallback={this.killChild}
-                  triggerSortCallback={this.sortEntries}
-                />
-              );
-            })}
-        </div>
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div className="entries"
+                ref={provided.innerRef}
+                {...provided.droppableProps}>
+                {initiativeOrder
+                  .filter(x => {
+                    return true;
+                  })
+                  .map((item, index) => {
+                    return (
+                      <InitiativeEntry
+                        index={index}
+                        displayNum={(index + 1).toString()}
+                        id={item.id}
+                        key={item.id}
+                        name={item.name}
+                        initiative={item.initiative}
+                        comments={item.comments}
+                        onUpdate={this.updateEntry}
+                        deleteCallback={this.killChild}
+                        triggerSortCallback={this.sortEntries}
+                      />
+                    );
+                  })}
+                  {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {initiativeOrder.length > 0 && (
+          <button className="clearButton" onClick={this.clearEntries}>
+            Clear All
+          </button>
+        )}
       </div>
     );
   }
