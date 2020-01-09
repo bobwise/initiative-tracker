@@ -37,6 +37,7 @@ class InitiativeEntry extends Component {
           <div className={
             classNames({
               "initiative_entry": true,
+              "initiative_entry__active": this.props.isActive,
               'is_dragging': snapshot.isDragging
             })}
            {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
@@ -94,6 +95,7 @@ InitiativeEntry.propTypes = {
   name: PropTypes.string,
   initiative: PropTypes.number,
   tiebreakerOrder: PropTypes.number,
+  isActive: PropTypes.bool,
   onUpdate: PropTypes.func,
   deleteCallback: PropTypes.func,
   triggerSortCallback: PropTypes.func

@@ -29,6 +29,14 @@ textarea {
   background-color: lightgray;
 }
 
+.initiative_entry__active {
+  border: 3px solid blue;
+}
+
+.initiative_entry__active .hamburgerIcon {
+  opacity: 100%;
+}
+
 .initiative_entry input {
   /* border: 1px solid hotpink; */
   text-align: left;

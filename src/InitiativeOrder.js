@@ -24,7 +24,7 @@ class InitiativeOrder extends Component {
     this.clearEntries = this.clearEntries.bind(this);
     this.updateNewName = this.updateNewName.bind(this);
     this.updateNewInit = this.updateNewInit.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
 
     this.nameInputRef = React.createRef();
@@ -36,7 +36,8 @@ class InitiativeOrder extends Component {
       newEntry: {
         name: "",
         initiative: ""
-      }
+      },
+      activeIndex: -1,
     };
   }
 
@@ -81,12 +82,33 @@ class InitiativeOrder extends Component {
     });
   }
 
-  handleKeyPress(e) {
-    if (e.charCode === 13) {
-      // enter
-      this.addEntry();
-      this.nameInputRef.current.focus();
-      // set focus
+  handleKeyDown(e) {
+    // console.log(e.keyCode);
+
+    switch (e.keyCode) {
+      case 13:
+        this.addEntry();
+        this.nameInputRef.current.focus();
+        break;
+      case 37: //left
+        break;
+      case 38: //up
+        if (this.state.activeIndex > -1) {
+          if (this.state.activeIndex === 0) { this.nameInputRef.current.focus(); };
+          this.setState({ activeIndex: this.state.activeIndex - 1 });
+        }
+        break;
+      case 39: //right
+        break;
+      case 40: //down
+        if (this.state.activeIndex < this.state.allEntries.length-1) {
+          this.setState({ activeIndex: this.state.activeIndex + 1 });
+        }
+        break;
+      default:
+
+        break;
+
     }
   }
 
@@ -232,7 +254,7 @@ class InitiativeOrder extends Component {
                 e.target.select();
               }}
               onChange={this.updateNewName}
-              onKeyPress={this.handleKeyPress}
+              onKeyDown={this.handleKeyDown}
               ref={this.nameInputRef}
             ></input>
           </div>
@@ -247,7 +269,7 @@ class InitiativeOrder extends Component {
                 e.target.select();
               }}
               onChange={this.updateNewInit}
-              onKeyPress={this.handleKeyPress}
+              onKeyDown={this.handleKeyDown}
               ref={this.initInputRef}
             ></input>
           </div>
@@ -271,6 +293,7 @@ class InitiativeOrder extends Component {
                     return (
                       <InitiativeEntry
                         index={index}
+                        isActive={index === this.state.activeIndex}
                         displayNum={(index + 1).toString()}
                         id={item.id}
                         key={item.id}
