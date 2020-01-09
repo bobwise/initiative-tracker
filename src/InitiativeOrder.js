@@ -274,7 +274,7 @@ class InitiativeOrder extends Component {
             ></input>
           </div>
           <div>
-            <button onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
+            <button className='submitButton' onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
               →
             </button>
           </div>
@@ -313,7 +313,7 @@ class InitiativeOrder extends Component {
         </DragDropContext>
         {initiativeOrder.length > 0 && (
           <button className="clearButton" onClick={this.clearEntries}>
-            Clear All
+            Clear
           </button>
         )}
       </div>
