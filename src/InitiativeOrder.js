@@ -60,6 +60,7 @@ class InitiativeOrder extends Component {
 
   componentDidMount() {
     this.sortEntries();
+    this.nameInputRef.current.focus();
   }
 
   updateNewName(event) {
@@ -250,6 +251,11 @@ class InitiativeOrder extends Component {
               ref={this.initInputRef}
             ></input>
           </div>
+          <div>
+            <button onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
+              →
+            </button>
+          </div>
         </div>
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable">
@@ -277,7 +283,7 @@ class InitiativeOrder extends Component {
                       />
                     );
                   })}
-                  {provided.placeholder}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>

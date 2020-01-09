@@ -40,7 +40,7 @@ textarea {
 }
 
 .input div {
-  width: 50%;
+  /* width: 50%; */
   padding-right: 5px;
 }
 
@@ -76,7 +76,7 @@ textarea {
   display: block;
 }
 
-.deleteIcon, .hamburgerIcon {
+.deleteIcon, .hamburgerIcon, .goIcon {
   height: 16px;
 	width: 16px;
   opacity: .25;

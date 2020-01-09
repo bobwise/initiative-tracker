@@ -16,6 +16,8 @@ A tool for quickly gathering names and initative rolls and then autosorting them
 ## Coming Soon
 
 - full keyboard support (including reordering)
+ - arrow keys to move up and down the list
+ - Cmd+arrow to move current item up or down
+ - hotkey to reset the form (Cmd+R...?)
 - quick link to The Official Initiative Rules
 - demo gif in the readme
-- add button in tab order after Initiative entry
