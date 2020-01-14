@@ -28,6 +28,6 @@ Optimized for quick keyboard usage.
  - arrow keys to move up and down the list
  - Cmd+arrow to move current item up or down
  - hotkey to reset the form (Cmd+R...?)
-- quick link to The Official Initiative Rules
+- quick link to The Official Initiative Rules - https://www.dndbeyond.com/sources/basic-rules/combat#Initiative
 - demo gif in the readme
 - bug: everything breaks if two entries have the same name. need better draggable id
