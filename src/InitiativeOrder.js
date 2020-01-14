@@ -37,6 +37,9 @@ class InitiativeOrder extends Component {
         name: "",
         initiative: ""
       },
+      // it's focused when it's hovered, either with the mouse or keyboard
+      focusedIndex: -1,
+      // it's active when it's been selected to drag, either by clicking or keyboard
       activeIndex: -1,
     };
   }
@@ -83,7 +86,12 @@ class InitiativeOrder extends Component {
   }
 
   handleKeyDown(e) {
-    // console.log(e.keyCode);
+    // ignore the arrow keys if focus is in the initiative entry field
+    if (e.target.name === "init_val") {
+      if (e.keyCode === 40 || e.keyCode === 38){
+        e.preventDefault();
+      }
+    }
 
     switch (e.keyCode) {
       case 13:
@@ -93,16 +101,16 @@ class InitiativeOrder extends Component {
       case 37: //left
         break;
       case 38: //up
-        if (this.state.activeIndex > -1) {
-          if (this.state.activeIndex === 0) { this.nameInputRef.current.focus(); };
-          this.setState({ activeIndex: this.state.activeIndex - 1 });
+        if (this.state.focusedIndex > -1) {
+          if (this.state.focusedIndex === 0) { this.nameInputRef.current.focus(); };
+          this.setState({ focusedIndex: this.state.focusedIndex - 1 });
         }
         break;
       case 39: //right
         break;
       case 40: //down
-        if (this.state.activeIndex < this.state.allEntries.length-1) {
-          this.setState({ activeIndex: this.state.activeIndex + 1 });
+        if (this.state.focusedIndex < this.state.allEntries.length-1) {
+          this.setState({ focusedIndex: this.state.focusedIndex + 1 });
         }
         break;
       default:
@@ -241,7 +249,7 @@ class InitiativeOrder extends Component {
     const { initiativeOrder } = this.state;
 
     return (
-      <div className="initiative_order">
+      <div className="initiative_order" onKeyDown={this.handleKeyDown}>
         <div className="input">
           <div>
             <label htmlFor="char_name">Name</label>
@@ -254,7 +262,6 @@ class InitiativeOrder extends Component {
                 e.target.select();
               }}
               onChange={this.updateNewName}
-              onKeyDown={this.handleKeyDown}
               ref={this.nameInputRef}
             ></input>
           </div>
@@ -269,7 +276,6 @@ class InitiativeOrder extends Component {
                 e.target.select();
               }}
               onChange={this.updateNewInit}
-              onKeyDown={this.handleKeyDown}
               ref={this.initInputRef}
             ></input>
           </div>
@@ -293,7 +299,7 @@ class InitiativeOrder extends Component {
                     return (
                       <InitiativeEntry
                         index={index}
-                        isActive={index === this.state.activeIndex}
+                        isActive={index === this.state.focusedIndex}
                         displayNum={(index + 1).toString()}
                         id={item.id}
                         key={item.id}

@@ -32,7 +32,7 @@ class InitiativeEntry extends Component {
     } = this.props;
 
     return (
-      <Draggable draggableId={name} index={this.props.index}>
+      <Draggable draggableId={this.props.id.toString()} index={this.props.index}>
         {(provided, snapshot) => (
           <div className={
             classNames({
