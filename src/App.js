@@ -53,7 +53,7 @@ class App extends Component {
       ]
     }
 
-    this.state={entries:[]};
+    //this.state={entries:[]};
   }
 
   render() {
