@@ -7,6 +7,7 @@ import { Draggable } from "react-beautiful-dnd";
 import "./InitiativeEntry.css";
 import classNames from 'classnames';
 
+
 class InitiativeEntry extends Component {
   constructor(props) {
     super(props);

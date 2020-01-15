@@ -33,8 +33,3 @@ A tool for quickly gathering names and initative rolls and then autosorting them
     - **Escape** <kbd>Esc</kbd> - end dragging
     - **Up arrow** <kbd>↑</kbd> - move a lifted item up the list
     - **Down arrow** <kbd>↓</kbd> - move a lifted item down the list
-
-## Coming Soon
-
-- quick link to The Official Initiative Rules - https://www.dndbeyond.com/sources/basic-rules/combat#Initiative
-- animation when it's added to the list

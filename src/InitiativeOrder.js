@@ -3,6 +3,8 @@ import InitiativeEntry from "./InitiativeEntry";
 import PropTypes from "prop-types";
 import "./InitiativeOrder.css";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 var uniqueId = require("lodash.uniqueid");
 
 const reorder = (list, startIndex, endIndex) => {
@@ -88,7 +90,7 @@ class InitiativeOrder extends Component {
   handleKeyDown(e) {
     // ignore the arrow keys if focus is in the initiative entry field
     if (e.target.name === "init_val") {
-      if (e.keyCode === 40 || e.keyCode === 38){
+      if (e.keyCode === 40 || e.keyCode === 38) {
         e.preventDefault();
       }
     }
@@ -115,7 +117,7 @@ class InitiativeOrder extends Component {
       case 39: //right
         break;
       case 40: //down
-        if (this.state.focusedIndex < this.state.allEntries.length-1) {
+        if (this.state.focusedIndex < this.state.allEntries.length - 1) {
           this.setState({ focusedIndex: this.state.focusedIndex + 1 });
         }
         break;
@@ -296,27 +298,33 @@ class InitiativeOrder extends Component {
               <div className="entries"
                 ref={provided.innerRef}
                 {...provided.droppableProps}>
-                {initiativeOrder
-                  .filter(x => {
-                    return true;
-                  })
-                  .map((item, index) => {
-                    return (
-                      <InitiativeEntry
-                        index={index}
-                        // isActive={index === this.state.focusedIndex}
-                        displayNum={(index + 1).toString()}
-                        id={item.id}
-                        key={item.id}
-                        name={item.name}
-                        initiative={item.initiative}
-                        comments={item.comments}
-                        onUpdate={this.updateEntry}
-                        deleteCallback={this.killChild}
-                        triggerSortCallback={this.sortEntries}
-                      />
-                    );
-                  })}
+                <ReactCSSTransitionGroup
+                  transitionName="example"
+                  transitionEnterTimeout={500}
+                  transitionLeaveTimeout={300}
+                >
+                  {initiativeOrder
+                    .filter(x => {
+                      return true;
+                    })
+                    .map((item, index) => {
+                      return (
+                        <InitiativeEntry
+                          index={index}
+                          // isActive={index === this.state.focusedIndex}
+                          displayNum={(index + 1).toString()}
+                          id={item.id}
+                          key={item.id}
+                          name={item.name}
+                          initiative={item.initiative}
+                          comments={item.comments}
+                          onUpdate={this.updateEntry}
+                          deleteCallback={this.killChild}
+                          triggerSortCallback={this.sortEntries}
+                        />
+                      );
+                    })}
+                </ReactCSSTransitionGroup>
                 {provided.placeholder}
               </div>
             )}
