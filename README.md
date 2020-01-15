@@ -3,6 +3,8 @@ A tool for quickly gathering names and initative rolls and then autosorting them
 
 🎲 See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
 
+![Demonstration gif](src/images/demo.gif)
+
 ## Setup
 
 1. Fork this repo.
@@ -27,4 +29,4 @@ A tool for quickly gathering names and initative rolls and then autosorting them
 - full keyboard support (including reordering)
  - Cmd+arrow to move current item up or down
 - quick link to The Official Initiative Rules - https://www.dndbeyond.com/sources/basic-rules/combat#Initiative
-- demo gif in the readme
+- animation when it's added to the list
