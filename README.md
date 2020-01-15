@@ -1,7 +1,7 @@
-# ✨ initiative_tracker
+# 📝 initiative_tracker
 A tool for quickly gathering names and initative rolls and then autosorting them for display.
 
-Optimized for quick keyboard usage.
+🎲 See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
 
 ## Setup
 
