@@ -275,6 +275,7 @@ class InitiativeOrder extends Component {
               type="number"
               name="init_val"
               id="init_val"
+              pattern="[0-9]*"
               value={this.state.newEntry.initiative}
               onClick={e => {
                 e.target.select();
