@@ -78,6 +78,7 @@ class InitiativeEntry extends Component {
               <input
                 type="text"
                 name="initiative"
+                pattern="[0-9]*"
                 value={initiative}
                 onClick={e => {
                   e.target.select();
