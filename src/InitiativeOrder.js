@@ -95,7 +95,13 @@ class InitiativeOrder extends Component {
 
     switch (e.keyCode) {
       case 13:
-        this.addEntry();
+
+        if (e.target.name === "clearButton") {
+          this.clearEntries();
+        } else {
+          this.addEntry();
+        }
+
         this.nameInputRef.current.focus();
         break;
       case 37: //left
@@ -114,9 +120,7 @@ class InitiativeOrder extends Component {
         }
         break;
       default:
-
         break;
-
     }
   }
 
@@ -299,7 +303,7 @@ class InitiativeOrder extends Component {
                     return (
                       <InitiativeEntry
                         index={index}
-                        isActive={index === this.state.focusedIndex}
+                        // isActive={index === this.state.focusedIndex}
                         displayNum={(index + 1).toString()}
                         id={item.id}
                         key={item.id}
@@ -318,7 +322,7 @@ class InitiativeOrder extends Component {
           </Droppable>
         </DragDropContext>
         {initiativeOrder.length > 0 && (
-          <button className="clearButton" onClick={this.clearEntries}>
+          <button className="clearButton" name="clearButton" onClick={this.clearEntries}>
             Clear
           </button>
         )}

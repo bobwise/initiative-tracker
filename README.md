@@ -19,14 +19,22 @@ A tool for quickly gathering names and initative rolls and then autosorting them
 
 ## Usage
 
-1. Type a character's name and initiative roll into the entry fields.
-2. Press `Enter` or click the submit button
-3. Drag and drop the initiative entries to adjust the order as needed
+1. Enter a character's name and initiative roll.
+2. Drag and drop the initiative entries to adjust the order as needed
 
+## Keyboard Usage
+
+- Use **Tab** <kbd>Tab ↹</kbd> and **Shift** + **Tab** (<kbd>Shift</kbd> + <kbd>Tab ↹</kbd>) to navigate between the entry fields and sortable list.
+- Add an entry to the list with <kbd>Enter ⏎</kbd>
+- Delete an entry with **Delete** <kbd>Delete ⌦</kbd> or **Backspace** <kbd>Backspace ⌫</kbd>
+- To sort the list:
+    - **Tab** <kbd>Tab ↹</kbd> - focus an initiative entry
+    - **Spacebar** <kbd>space</kbd> - **lift** the entry to begin dragging or **drop** the entry to end dragging.
+    - **Escape** <kbd>Esc</kbd> - end dragging
+    - **Up arrow** <kbd>↑</kbd> - move a lifted item up the list
+    - **Down arrow** <kbd>↓</kbd> - move a lifted item down the list
 
 ## Coming Soon
 
-- full keyboard support (including reordering)
- - Cmd+arrow to move current item up or down
 - quick link to The Official Initiative Rules - https://www.dndbeyond.com/sources/basic-rules/combat#Initiative
 - animation when it's added to the list
