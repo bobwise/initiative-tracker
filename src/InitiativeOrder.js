@@ -43,6 +43,7 @@ class InitiativeOrder extends Component {
       focusedIndex: -1,
       // it's active when it's been selected to drag, either by clicking or keyboard
       activeIndex: -1,
+      initativeOrderMessage: "",
     };
   }
 
@@ -58,9 +59,13 @@ class InitiativeOrder extends Component {
       result.destination.index
     );
 
+    const newMessage = "Initiative Order is: " +
+      items.map((item) => item.name);
+
     this.setState({
       allEntries: items,
-      initiativeOrder: items
+      initiativeOrder: items,
+      initativeOrderMessage: newMessage,
     });
   }
 
@@ -133,7 +138,8 @@ class InitiativeOrder extends Component {
       newEntry: {
         name: "",
         initiative: ""
-      }
+      },
+      initativeOrderMessage: "The initiative order is empty",
     });
   }
 
@@ -163,8 +169,12 @@ class InitiativeOrder extends Component {
 
     const newInitiative = sortedItems;
 
+    const newMessage = "Initiative Order is: " +
+      newInitiative.map((item) => item.name);
+
     this.setState({
-      initiativeOrder: newInitiative
+      initiativeOrder: newInitiative,
+      initativeOrderMessage: newMessage,
     });
   }
 
@@ -291,6 +301,14 @@ class InitiativeOrder extends Component {
               →
             </button>
           </div>
+        </div>
+        <div
+          role="region"
+          aria-live="polite"
+          className="screen-reader-text"
+          id="initiative_live"
+        >
+          {this.state.initativeOrderMessage}
         </div>
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable">
