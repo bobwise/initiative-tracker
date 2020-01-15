@@ -26,6 +26,5 @@ Optimized for quick keyboard usage.
 
 - full keyboard support (including reordering)
  - Cmd+arrow to move current item up or down
- - hotkey to reset the form (Cmd+R...?)
 - quick link to The Official Initiative Rules - https://www.dndbeyond.com/sources/basic-rules/combat#Initiative
 - demo gif in the readme
