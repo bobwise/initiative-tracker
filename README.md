@@ -25,9 +25,7 @@ Optimized for quick keyboard usage.
 ## Coming Soon
 
 - full keyboard support (including reordering)
- - arrow keys to move up and down the list
  - Cmd+arrow to move current item up or down
  - hotkey to reset the form (Cmd+R...?)
 - quick link to The Official Initiative Rules - https://www.dndbeyond.com/sources/basic-rules/combat#Initiative
 - demo gif in the readme
-- bug: everything breaks if two entries have the same name. need better draggable id
