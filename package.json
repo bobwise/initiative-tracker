@@ -33,6 +33,6 @@
     ]
   },
   "devDependencies": {
-    "@svgr/cli": "^4.3.2",
+    "@svgr/cli": "^4.3.2"
   }
 }
