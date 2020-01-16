@@ -279,6 +279,7 @@ class InitiativeOrder extends Component {
               }}
               onChange={this.updateNewName}
               ref={this.nameInputRef}
+              placeholder={"Sylphira"}
             ></input>
           </div>
           <div>
@@ -294,6 +295,7 @@ class InitiativeOrder extends Component {
               }}
               onChange={this.updateNewInit}
               ref={this.initInputRef}
+              placeholder={"17"}
             ></input>
           </div>
           <div>

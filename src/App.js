@@ -61,6 +61,13 @@ class App extends Component {
 
     return (
       <div className="App">
+        <div class="chat">
+          <div class="yours messages">
+            <div class="message last header">
+              Let's roll for initiative!
+            </div>
+          </div>
+        </div>
         <h1>
           Initiative Tracker
         </h1>
@@ -68,6 +75,18 @@ class App extends Component {
             by Bobwise
         </h2>
         <Divider></Divider>
+        <div class="chat">
+          <div class="yours messages">
+            <div class="message last">
+              Ok Sylphira, what's your initiative roll?
+            </div>
+          </div>
+          <div class="mine messages">
+            <div class="message last">
+              17
+            </div>
+          </div>
+        </div>
         <InitiativeOrder
           initialEntries = { entries }
         >

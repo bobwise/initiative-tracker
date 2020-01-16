@@ -54,6 +54,7 @@ textarea {
 
 .input input {
   border-bottom: 1px solid brown;
+  margin-top: 5px;
 }
 
 .initiative_entry div {
