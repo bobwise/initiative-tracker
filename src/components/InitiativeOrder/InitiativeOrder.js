@@ -183,6 +183,10 @@ class InitiativeOrder extends Component {
 
     let newItems = [...allEntries];
 
+    if (this.props.hideTipsCallback){
+      this.props.hideTipsCallback();
+    }
+
     if (
       !isNaN(this.state.newEntry.initiative) &&
       this.state.newEntry.name.trim() !== ""

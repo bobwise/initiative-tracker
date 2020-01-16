@@ -1,0 +1,30 @@
+/*https://codepen.io/swards/pen/gxQmbj*/
+.chat {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  position:relative;
+}
+
+.chatTips-enter {
+  opacity: 0.01;
+  top: -250px;
+  transition: all 1s ease;
+}
+
+.chatTips-enter.chatTips-enter-active {
+  opacity: 1;
+  top: 0px;
+  height: 100%;
+}
+
+.chatTips-leave {
+  opacity: 1;
+  top: 0px;
+  transition: all 1s ease;
+}
+
+.chatTips-leave.chatTips-leave-active {
+  opacity: 0.01;
+  top: -250px;
+}

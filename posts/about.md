@@ -6,6 +6,12 @@ A series of blog posts that walk a student through building this project from th
   - goal for the project
   - sketches
 
+1. Prerequisites
+
+- environment
+- software
+- skills
+
 1. Create a boilerplate React app and get it compiling and running.
 
   - `create-react-app`
