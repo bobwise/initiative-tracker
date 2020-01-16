@@ -1,26 +1,16 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import DeleteIcon from "./DeleteIcon";
-import HamburgerIcon from "./HamburgerIcon";
+import DeleteIcon from "../../assets/icons/Delete";
+import HamburgerIcon from "../../assets/icons/Hamburger";
 import { Draggable } from "react-beautiful-dnd";
 import "./InitiativeEntry.css";
-import classNames from 'classnames';
-
+import classNames from "classnames";
 
 class InitiativeEntry extends Component {
   constructor(props) {
     super(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.containerRef = React.createRef();
-  }
-
-  componentDidUpdate() {
-    if (this.props.isActive) {
-      console.log('focusing');
-      ReactDOM.findDOMNode(this.refs.containerRef).focus();
-    }
   }
 
   handleInputChange(event) {
@@ -42,30 +32,39 @@ class InitiativeEntry extends Component {
     } = this.props;
 
     return (
-      <Draggable draggableId={this.props.id.toString()} index={this.props.index}>
+      <Draggable
+        draggableId={this.props.id.toString()}
+        index={this.props.index}
+      >
         {(provided, snapshot) => (
           <div
             id="itemContainer"
-            ref={this.containerRef}
-            className={
-              classNames({
-                "initiative_entry": true,
-                "initiative_entry__active": this.props.isActive,
-                'is_dragging': snapshot.isDragging
-              })
-            }
-            onKeyDown={(e) => {
-              if(e.target.id === "itemContainer" && (e.keyCode === 46 || e.keyCode === 8)){
+            className={classNames({
+              initiative_entry: true,
+              initiative_entry__active: this.props.isActive,
+              is_dragging: snapshot.isDragging
+            })}
+            onKeyDown={e => {
+              if (
+                e.target.id === "itemContainer" &&
+                (e.keyCode === 46 || e.keyCode === 8)
+              ) {
                 deleteCallback(id);
               }
             }}
-            {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-            <div className="grabber hamburgerIcon" {...provided.dragHandleProps} tabIndex={-1}>
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+          >
+            <div
+              className="grabber hamburgerIcon"
+              {...provided.dragHandleProps}
+              tabIndex={-1}
+            >
               <HamburgerIcon></HamburgerIcon>
             </div>
             <div className="name">
               <input
-                ref={this.nameRef}
                 type="text"
                 name="name"
                 value={name}
@@ -104,8 +103,7 @@ class InitiativeEntry extends Component {
               )}
             </div>
           </div>
-        )
-        }
+        )}
       </Draggable>
     );
   }

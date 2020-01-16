@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import InitiativeEntry from "./InitiativeEntry";
+import InitiativeEntry from "../InitiativeEntry/InitiativeEntry";
 import PropTypes from "prop-types";
 import "./InitiativeOrder.css";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";

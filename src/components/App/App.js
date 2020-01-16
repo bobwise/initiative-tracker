@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import InitiativeOrder from './InitiativeOrder.js';
+import InitiativeOrder from '../InitiativeOrder/InitiativeOrder.js';
 import './App.css';
-import Divider from './Divider';
-
-// on load, pull data from local storage
-// needs controls for adding, saving, autorolling, etc
-// App is responsible for storing all the raw data in
-// a javascript array or something. Turns that into
-// Entry components and outputs them. Not sorted here.
+import Divider from '../../assets/icons/Divider';
 
 class App extends Component {
   constructor(props) {
@@ -61,9 +55,9 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div class="chat">
-          <div class="yours messages">
-            <div class="message last header">
+        <div className="chat">
+          <div className="yours messages">
+            <div className="message last header">
               Let's roll for initiative!
             </div>
           </div>
@@ -75,14 +69,14 @@ class App extends Component {
             by Bobwise
         </h2>
         <Divider></Divider>
-        <div class="chat">
-          <div class="yours messages">
-            <div class="message last">
+        <div className="chat">
+          <div className="yours messages">
+            <div className="message last">
               Ok Sylphira, what's your initiative roll?
             </div>
           </div>
-          <div class="mine messages">
-            <div class="message last">
+          <div className="mine messages">
+            <div className="message last">
               17
             </div>
           </div>
