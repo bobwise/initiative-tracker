@@ -24,7 +24,7 @@ class ChatLog extends Component {
       <ReactCSSTransitionGroup
         transitionName="chatTips"
         transitionEnterTimeout={500}
-        transitionLeaveTimeout={300}
+        transitionLeaveTimeout={250}
       >
         {chatTips}
       </ReactCSSTransitionGroup>

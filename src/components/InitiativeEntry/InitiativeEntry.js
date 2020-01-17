@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DeleteIcon from "../../assets/icons/Delete";
 import HamburgerIcon from "../../assets/icons/Hamburger";
 import { Draggable } from "react-beautiful-dnd";
-import "./InitiativeEntry.css";
+import "./InitiativeEntry.scss";
 import classNames from "classnames";
 
 class InitiativeEntry extends Component {

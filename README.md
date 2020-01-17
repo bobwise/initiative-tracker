@@ -1,9 +1,18 @@
-# 📝 initiative_tracker
-A tool for quickly gathering names and initative rolls and then autosorting them for display.
+# 📓 initiative_tracker
 
-🎲 See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
+A Dungeons & Dragons tool for tracking turn order. 🎲🐉
 
-![Demonstration gif](src/images/demo.gif)
+See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
+
+![Demonstration gif](src/assets/images/demo.gif)
+
+## Features
+
+* Autosort players as they are added to the list 🥇
+* Drag and drop to settle ties 📜
+* Designed for keyboard support ⌨️
+* Designed for screen reader support 🗣
+
 
 ## Setup
 

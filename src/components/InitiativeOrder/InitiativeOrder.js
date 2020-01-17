@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import InitiativeEntry from "../InitiativeEntry/InitiativeEntry";
-import PropTypes from "prop-types";
-import "./InitiativeOrder.css";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import PropTypes from "prop-types";
+import InitiativeEntry from "../InitiativeEntry/InitiativeEntry";
+import "./InitiativeOrder.scss";
 
 var uniqueId = require("lodash.uniqueid");
 

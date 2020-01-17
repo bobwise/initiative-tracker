@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash.uniqueid": "^4.0.1",
+    "node-sass": "^4.13.1",
     "react": "^16.8.6",
     "react-addons-css-transition-group": "^15.6.2",
     "react-beautiful-dnd": "^12.2.0",

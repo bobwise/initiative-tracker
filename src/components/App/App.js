@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import InitiativeOrder from "../InitiativeOrder/InitiativeOrder.js";
 import ChatLog from "../ChatLog/ChatLog";
 import ChatMessage from "../ChatMessage/ChatMessage";
-import "./App.css";
+import "./App.scss";
 import Divider from "../../assets/icons/Divider";
 
 class App extends Component {
@@ -60,7 +60,7 @@ class App extends Component {
   }
 
   hideTips() {
-    this.setState({tipsVisible: false});
+    this.setState({ tipsVisible: false });
   }
 
   render() {
@@ -69,7 +69,6 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Initiative Tracker</h1>
-        <h2>by Bobwise</h2>
         <Divider />
         <ChatLog visible={this.state.tipsVisible}>
           <ChatMessage source="yours">Let's roll initiative!</ChatMessage>
@@ -80,7 +79,14 @@ class App extends Component {
             17
           </ChatMessage>
         </ChatLog>
-        <InitiativeOrder initialEntries={entries} hideTipsCallback={this.hideTips}></InitiativeOrder>
+        <InitiativeOrder
+          initialEntries={entries}
+          hideTipsCallback={this.hideTips}
+        ></InitiativeOrder>
+        {/* <a className="rulesLink" href="https://www.dndbeyond.com/sources/basic-rules/combat#Initiative">How does <strong>initiative</strong> work again?</a> */}
+        <footer>
+          <h2>by Bobwise</h2>
+        </footer>
       </div>
     );
   }
