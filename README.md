@@ -18,7 +18,7 @@ See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
 1. Enter a character's name and initiative roll.
 2. Drag and drop the initiative entries to adjust the order as needed
 
-## Keyboard Usage
+## Keyboard Usage ⌨️
 
 - Use **Tab** <kbd>Tab ↹</kbd> and **Shift** + **Tab** (<kbd>Shift</kbd> + <kbd>Tab ↹</kbd>) to navigate between the entry fields and sortable list.
 - Add an entry to the list with <kbd>Enter ⏎</kbd>
