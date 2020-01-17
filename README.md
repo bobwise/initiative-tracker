@@ -8,23 +8,10 @@ See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
 
 ## Features
 
-* Autosort players as they are added to the list 🥇
-* Drag and drop to settle ties 📜
+* Autosort players as they are added to the list 📜
+* Drag and drop to settle ties 🥇
 * Designed for keyboard support ⌨️
 * Designed for screen reader support 🗣
-
-
-## Setup
-
-1. Fork this repo.
-1. `clone` your forked repo with `git clone <yourRepoUrl>`.
-1. [Install Node](https://nodejs.org/en/).
-1. `cd` into the project directory and run `npm install`.
-
-## Quick Start
-
-1. Go through **Setup**.
-1. Run `npm run start` in your project directory.
 
 ## Usage
 
@@ -42,3 +29,11 @@ See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
     - **Escape** <kbd>Esc</kbd> - end dragging
     - **Up arrow** <kbd>↑</kbd> - move a lifted item up the list
     - **Down arrow** <kbd>↓</kbd> - move a lifted item down the list
+
+## Run it Yourself 👾
+
+1. Fork this repo.
+1. `clone` your forked repo with `git clone <yourRepoUrl>`.
+1. [Install Node](https://nodejs.org/en/).
+1. `cd` into the project directory and run `npm install`.
+1. Run `npm run start` in your project directory.
