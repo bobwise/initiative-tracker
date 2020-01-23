@@ -70,15 +70,6 @@ class App extends Component {
       <div className="App">
         <h1>Initiative Tracker</h1>
         <Divider />
-        <ChatLog visible={this.state.tipsVisible}>
-          <ChatMessage source="yours">Let's roll initiative!</ChatMessage>
-          <ChatMessage source="yours" last>
-            Ok Sylphira, what's your initiative roll?
-          </ChatMessage>
-          <ChatMessage source="mine" last>
-            17
-          </ChatMessage>
-        </ChatLog>
         <InitiativeOrder
           initialEntries={entries}
           hideTipsCallback={this.hideTips}
