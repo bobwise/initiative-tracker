@@ -67,18 +67,20 @@ class App extends Component {
     const { entries } = this.state;
 
     return (
-      <div className="App">
-        <h1>Initiative Tracker</h1>
-        <Divider />
-        <InitiativeOrder
-          initialEntries={entries}
-          hideTipsCallback={this.hideTips}
-        ></InitiativeOrder>
-        {/* <a className="rulesLink" href="https://www.dndbeyond.com/sources/basic-rules/combat#Initiative">How does <strong>initiative</strong> work again?</a> */}
-        <footer>
-          <h2>by Bobwise</h2>
-        </footer>
-      </div>
+      <main>
+        <div className="App">
+          <h1>Initiative Tracker</h1>
+          <Divider />
+          <InitiativeOrder
+            initialEntries={entries}
+            hideTipsCallback={this.hideTips}
+          ></InitiativeOrder>
+          {/* <a className="rulesLink" href="https://www.dndbeyond.com/sources/basic-rules/combat#Initiative">How does <strong>initiative</strong> work again?</a> */}
+          <footer>
+            <h2>by Bobwise</h2>
+          </footer>
+        </div>
+      </main>
     );
   }
 }
