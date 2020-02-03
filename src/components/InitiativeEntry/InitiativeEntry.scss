@@ -1,24 +1,44 @@
-input,
-textarea {
+input {
   font-family: "modesto-text", serif;
   background: none;
   border: none;
   font-size: 18px;
-	width: 100%;
+	// width: 100%;
 	text-align: center;
 }
 
-textarea {
-  width: 100%;
+.form_container {
+  // width: 100%;
+  display: flex;
+}
+
+.field_container {
+  flex-grow: 1;
+}
+
+.field_container label {
+  display: block;
+}
+
+.form_container input {
+  border: 2px solid #CCC;
+  border-radius: 4px;
+  margin-top: 5px;
   text-align: left;
-  font-size: 18px;
+  padding: 5px;
+  width: 80%;
+}
+
+.form_container input:focus {
+  // border: 3px solid #822000;
+  outline: #822000 auto 5px;
 }
 
 .initiative_entry {
   display: grid;
   grid-template-columns: 25px auto 30px 30px;
   grid-template-rows: auto;
-  border: 1px solid brown;
+  border: 1px solid #822000;
   border-radius: 4px;
 	padding: 5px 15px;
 	margin-bottom: 1px;
@@ -43,37 +63,9 @@ textarea {
   /* width: 50%; */
 }
 
-.input {
-  display: flex;
-}
-
-.input div {
-  /* width: 50%; */
-  padding-right: 5px;
-}
-
-.input input {
-  border-bottom: 1px solid brown;
-  margin-top: 5px;
-}
-
 .initiative_entry div {
   display: inline-block;
   overflow: hidden;
-}
-
-.displayNumber {
-  font-size: 18px;
-  align-self: center;
-}
-.actions {
-  align-self: center;
-}
-.name {
-  align-self: center;
-}
-.initiative_roll {
-	align-self: center;
 }
 
 .initiative_entry .deleteIcon {
@@ -91,32 +83,13 @@ textarea {
   opacity: .25;
 }
 
+.deleteIcon:hover {
+  opacity: .5;
+  cursor: pointer;
+}
+
 .hamburgerIcon {
   padding-top: 2px;
-}
-
-.deleteIcon:hover {
-	opacity: .5;
-	cursor: pointer;
-}
-
-
-.example-enter {
-  opacity: 0;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: all .75s ease;
-}
-
-.example-leave {
-  opacity: 1;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
 }
 
 /* Text meant only for screen readers. */

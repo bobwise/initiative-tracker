@@ -183,7 +183,7 @@ class InitiativeOrder extends Component {
 
     let newItems = [...allEntries];
 
-    if (this.props.hideTipsCallback){
+    if (this.props.hideTipsCallback) {
       this.props.hideTipsCallback();
     }
 
@@ -270,8 +270,8 @@ class InitiativeOrder extends Component {
 
     return (
       <div className="initiative_order" onKeyDown={this.handleKeyDown}>
-        <div className="input">
-          <div>
+        <div className="form_container">
+          <div className="field_container">
             <label htmlFor="char_name">Name</label>
             <input
               type="text"
@@ -283,10 +283,10 @@ class InitiativeOrder extends Component {
               }}
               onChange={this.updateNewName}
               ref={this.nameInputRef}
-              placeholder={"Sylphira"}
+              // placeholder={"Sylphira"}
             ></input>
           </div>
-          <div>
+          <div className="field_container">
             <label htmlFor="init_val">Initiative</label>
             <input
               type="number"
@@ -299,14 +299,12 @@ class InitiativeOrder extends Component {
               }}
               onChange={this.updateNewInit}
               ref={this.initInputRef}
-              placeholder={"17"}
+              // placeholder={"17"}
             ></input>
           </div>
-          <div>
-            <button className='submitButton' onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
-              →
-            </button>
-          </div>
+          <button className='submitButton' onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
+            →
+          </button>
         </div>
         <div
           role="region"

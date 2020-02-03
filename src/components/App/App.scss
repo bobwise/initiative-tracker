@@ -7,6 +7,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: "modesto-text", serif;
   color: #910000;
+  margin-block-start: 0;
 }
 
 h1 {
@@ -30,11 +31,19 @@ h2 {
 button {
   padding: 10px;
   border-radius: 4px;
-  background-color: #910000;
+  background-color: #822000;
   color: white;
   border: none;
   font-size: 16px;
   font-family: "modesto-text", serif;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:focus {
+  outline: #822000 auto 5px;
 }
 
 main {
@@ -45,9 +54,6 @@ main {
 
 .App {
   
-  // border-top: 5px solid brown;
-  // border-bottom: 5px solid brown;
-
   position: relative;
 
   padding: 15px;
@@ -100,14 +106,4 @@ h2 {font-size: .85rem;}
 .message.header {
   font-size: 1.5rem;
   min-width: 250px;
-}
-
-.chat.collapsed {
-  height: 0;
-  overflow: hidden;
-}
-
-.chat.expanded {
-  height: auto;
-  transition: all 1s ease;
 }

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import InitiativeOrder from "../InitiativeOrder/InitiativeOrder.js";
-import ChatLog from "../ChatLog/ChatLog";
-import ChatMessage from "../ChatMessage/ChatMessage";
 import "./App.scss";
 import Divider from "../../assets/icons/Divider";
 
