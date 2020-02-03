@@ -183,10 +183,6 @@ class InitiativeOrder extends Component {
 
     let newItems = [...allEntries];
 
-    if (this.props.hideTipsCallback) {
-      this.props.hideTipsCallback();
-    }
-
     if (
       !isNaN(this.state.newEntry.initiative) &&
       this.state.newEntry.name.trim() !== ""
@@ -283,7 +279,7 @@ class InitiativeOrder extends Component {
               }}
               onChange={this.updateNewName}
               ref={this.nameInputRef}
-              // placeholder={"Sylphira"}
+            // placeholder={"Sylphira"}
             ></input>
           </div>
           <div className="field_container">
@@ -299,7 +295,7 @@ class InitiativeOrder extends Component {
               }}
               onChange={this.updateNewInit}
               ref={this.initInputRef}
-              // placeholder={"17"}
+            // placeholder={"17"}
             ></input>
           </div>
           <button className='submitButton' onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
@@ -353,9 +349,13 @@ class InitiativeOrder extends Component {
           </Droppable>
         </DragDropContext>
         {initiativeOrder.length > 0 && (
-          <button className="clearButton" name="clearButton" onClick={this.clearEntries}>
-            Clear
-          </button>
+          <footer>
+            <p>Drag and drop to adjust order.</p>
+            <p><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
+            <button className="clearButton" name="clearButton" onClick={this.clearEntries}>
+              Clear
+            </button>
+          </footer>
         )}
       </div>
     );

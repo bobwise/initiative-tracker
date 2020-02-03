@@ -7,8 +7,6 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.hideTips = this.hideTips.bind(this);
-
     let entries = [];
 
     entries = [
@@ -49,16 +47,13 @@ class App extends Component {
       }
     ]
 
+    // Comment to include test data
     entries = [];
 
     this.state = {
       entries: entries,
       tipsVisible: true,
     };
-  }
-
-  hideTips() {
-    this.setState({ tipsVisible: false });
   }
 
   render() {
@@ -71,13 +66,13 @@ class App extends Component {
           <Divider />
           <InitiativeOrder
             initialEntries={entries}
-            hideTipsCallback={this.hideTips}
           ></InitiativeOrder>
           {/* <a className="rulesLink" href="https://www.dndbeyond.com/sources/basic-rules/combat#Initiative">How does <strong>initiative</strong> work again?</a> */}
-          <footer>
-            <h2>by Bobwise</h2>
-          </footer>
+
         </div>
+        <aside>
+          <p>by Bobwise</p>
+        </aside>
       </main>
     );
   }

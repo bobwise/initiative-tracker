@@ -3,7 +3,7 @@ import React from "react";
 const css = `
 .cls-1{fill:none;}
 .cls-2{clip-path:url(#clip-path);}
-.cls-3{fill:#9b2818;}
+.cls-3{fill:#822000;}
 `;
 
 const SvgDivider = props => (

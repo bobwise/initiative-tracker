@@ -27,6 +27,7 @@ input {
   text-align: left;
   padding: 5px;
   width: 80%;
+  background: #FFF;
 }
 
 .form_container input:focus {
@@ -38,15 +39,16 @@ input {
   display: grid;
   grid-template-columns: 25px auto 30px 30px;
   grid-template-rows: auto;
-  border: 1px solid #822000;
-  border-radius: 4px;
+  border: 0;
+  border-bottom: 1px solid #822000;
+  // border-radius: 4px;
 	padding: 5px 15px;
 	margin-bottom: 1px;
-  background-color: beige;
+  // background-color: #FDFDFD;
 }
 
 .initiative_entry.is_dragging {
-  background-color: lightgray;
+  background-color: #EEE;
 }
 
 .initiative_entry__active {
