@@ -71,7 +71,7 @@ class App extends Component {
 
         </div>
         <aside>
-          <p>by Bobwise</p>
+          <p>by <a href="http://twitter.com/bobwise/">Bobwise</a></p>
         </aside>
       </main>
     );

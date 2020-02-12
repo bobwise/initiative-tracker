@@ -2,7 +2,7 @@
 
 A Dungeons & Dragons tool for tracking turn order. 🎲🐉
 
-See it in action [here](https://bwise-initiative-tracker.herokuapp.com/).
+See it in action [here](https://bobwise.github.io/initiative_tracker/).
 
 ![Demonstration gif](src/assets/images/demo2.gif)
 
