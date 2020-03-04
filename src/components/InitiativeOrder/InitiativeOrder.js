@@ -59,8 +59,13 @@ class InitiativeOrder extends Component {
       result.destination.index
     );
 
-    const newMessage = "Initiative Order is: " +
-      items.map((item) => item.name);
+    let newMessage = "The Initiative Order is ";
+
+    if (items.length === 0){
+      newMessage += "empty";
+    } else {
+      newMessage += items.map((item) => item.name);
+    }
 
     this.setState({
       allEntries: items,
