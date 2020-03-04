@@ -299,7 +299,7 @@ class InitiativeOrder extends Component {
             ></input>
           </div>
           <button className='submitButton' onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
-            →
+            Add
           </button>
         </div>
         <div

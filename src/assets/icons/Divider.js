@@ -7,7 +7,7 @@ const css = `
 `;
 
 const SvgDivider = props => (
-  <svg className='dividerImage' id="Layer_1" data-name="Layer 1" viewBox="0 0 226.08 3">
+  <svg className='dividerImage' viewBox="0 0 226.08 3">
     <defs>
       <style>{css}</style>
       <clipPath id="clip-path" transform="translate(-666 -479)">

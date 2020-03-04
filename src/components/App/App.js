@@ -70,9 +70,9 @@ class App extends Component {
           {/* <a className="rulesLink" href="https://www.dndbeyond.com/sources/basic-rules/combat#Initiative">How does <strong>initiative</strong> work again?</a> */}
 
         </div>
-        <aside>
+        <footer className='siteFooter'>
           <p>by <a href="http://twitter.com/bobwise/">Bobwise</a></p>
-        </aside>
+        </footer>
       </main>
     );
   }

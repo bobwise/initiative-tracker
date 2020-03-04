@@ -38,7 +38,7 @@ class InitiativeEntry extends Component {
       >
         {(provided, snapshot) => (
           <div
-            id="itemContainer"
+            id={"itemContainer" + this.props.id}
             className={classNames({
               initiative_entry: true,
               initiative_entry__active: this.props.isActive,
@@ -46,7 +46,7 @@ class InitiativeEntry extends Component {
             })}
             onKeyDown={e => {
               if (
-                e.target.id === "itemContainer" &&
+                e.target.id === "itemContainer" + this.props.id &&
                 (e.keyCode === 46 || e.keyCode === 8)
               ) {
                 deleteCallback(id);
@@ -67,6 +67,7 @@ class InitiativeEntry extends Component {
               <input
                 type="text"
                 name="name"
+                aria-label="Name"
                 value={name}
                 onClick={e => {
                   e.target.select();
@@ -79,6 +80,7 @@ class InitiativeEntry extends Component {
                 type="text"
                 name="initiative"
                 pattern="[0-9]*"
+                aria-label="Initiative"
                 value={initiative}
                 onClick={e => {
                   e.target.select();
