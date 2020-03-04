@@ -48,6 +48,7 @@ button {
 }
 
 button:hover {
+  background-color: darken($dark-red, 5%);
   cursor: pointer;
 }
 
@@ -110,6 +111,14 @@ footer p {
   font-size: 0.85rem;
   margin: 0;
   margin-bottom: 7px;
+}
+
+footer p a {
+  color: #666;
+}
+
+footer p a:focus {
+  outline: $dark-red auto 5px;
 }
 
 .siteFooter {

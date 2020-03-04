@@ -50,6 +50,9 @@ class InitiativeEntry extends Component {
                 (e.keyCode === 46 || e.keyCode === 8)
               ) {
                 deleteCallback(id);
+                // TODO - put focus on the new item with the same index as me
+                // browser is dropping it in roughly the right location. If I
+                // press tab once it's in the right spot. Can I use that?
               }
             }}
             {...provided.draggableProps}

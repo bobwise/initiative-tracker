@@ -1,3 +1,7 @@
+$dark-red: #822000;
+$paper: #f8f2d3;
+$brown: #957a41;
+
 input {
   font-family: "modesto-text", serif;
   background: none;
@@ -30,9 +34,8 @@ input {
   background: #FFF;
 }
 
-.form_container input:focus {
-  // border: 3px solid #822000;
-  outline: #822000 auto 5px;
+input:focus {
+  outline: $dark-red auto 5px;
 }
 
 .initiative_entry {
@@ -40,11 +43,15 @@ input {
   grid-template-columns: 25px auto 30px 30px;
   grid-template-rows: auto;
   border: 0;
-  border-bottom: 1px solid #822000;
+  border-bottom: 1px solid $dark-red;
   // border-radius: 4px;
 	padding: 5px 15px;
 	margin-bottom: 1px;
   // background-color: #FDFDFD;
+}
+
+.initiative_entry:focus {
+  outline: $dark-red auto 5px;
 }
 
 .initiative_entry.is_dragging {
@@ -60,9 +67,7 @@ input {
 }
 
 .initiative_entry input {
-  /* border: 1px solid hotpink; */
   text-align: left;
-  /* width: 50%; */
 }
 
 .initiative_entry div {
@@ -75,9 +80,15 @@ input {
   float: right;
 }
 
-.initiative_entry:hover .deleteIcon {
-  display: block;
+.initiative_entry:hover {
+
+  background-color: darken($paper, 5%);
+
+  .deleteIcon {
+    display: block;
+  }
 }
+
 
 .deleteIcon, .hamburgerIcon, .goIcon {
   height: 16px;
