@@ -356,7 +356,7 @@ class InitiativeOrder extends Component {
         {initiativeOrder.length > 0 && (
           <footer>
             <p>Drag and drop to adjust order.</p>
-            <p><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
+            <p className="hide-on-mobile"><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
             <button className="clearButton" name="clearButton" onClick={this.clearEntries}>
               Clear
             </button>
