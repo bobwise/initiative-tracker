@@ -1,154 +1,35 @@
-import React, { Component } from "react";
+import React, { useState, useRef, useEffect } from "react"
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import PropTypes from "prop-types";
 import InitiativeEntry from "../InitiativeEntry/InitiativeEntry";
 import "./InitiativeOrder.scss";
 
 var uniqueId = require("lodash.uniqueid");
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+const InitiativeOrder = (props) => {
 
-  return result;
-};
+  const nameInputRef = useRef(null);
+  const initInputRef = useRef(null);
 
-class InitiativeOrder extends Component {
-  constructor(props) {
-    super(props);
+  const [allEntries, setAllEntries] = useState(props.initialEntries ? props.initialEntries : []);
+  const [initiativeOrder, setInitiativeOrder] = useState([]);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  // const [activeIndex, setActiveIndex] = useState(-1);
+  const [initiativeOrderMessage, setInitiativeOrderMessage] = useState("");
 
-    this.addEntry = this.addEntry.bind(this);
-    this.updateEntry = this.updateEntry.bind(this);
-    this.killChild = this.killChild.bind(this);
-    this.sortEntries = this.sortEntries.bind(this);
-    this.clearEntries = this.clearEntries.bind(this);
-    this.updateNewName = this.updateNewName.bind(this);
-    this.updateNewInit = this.updateNewInit.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
-    this.nameInputRef = React.createRef();
-    this.initInputRef = React.createRef();
-
-    this.state = {
-      allEntries: props.initialEntries ? props.initialEntries : [],
-      initiativeOrder: [],
-      newEntry: {
-        name: "",
-        initiative: ""
-      },
-      // it's focused when it's hovered, either with the mouse or keyboard
-      focusedIndex: -1,
-      // it's active when it's been selected to drag, either by clicking or keyboard
-      activeIndex: -1,
-      initativeOrderMessage: "",
-    };
+    return result;
+  };
+  const clearEntries = () => {
+    setAllEntries([]);
+    setInitiativeOrder([]);
+    setInitiativeOrderMessage("The initiative order is empty");
   }
-
-  onDragEnd(result) {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
-
-    const items = reorder(
-      this.state.initiativeOrder,
-      result.source.index,
-      result.destination.index
-    );
-
-    let newMessage = "The Initiative Order is ";
-
-    if (items.length === 0){
-      newMessage += "empty";
-    } else {
-      newMessage += items.map((item) => item.name);
-    }
-
-    this.setState({
-      allEntries: items,
-      initiativeOrder: items,
-      initativeOrderMessage: newMessage,
-    });
-  }
-
-  componentDidMount() {
-    this.sortEntries();
-    this.nameInputRef.current.focus();
-  }
-
-  updateNewName(event) {
-    this.setState({
-      newEntry: {
-        ...this.state.newEntry,
-        name: event.target.value
-      }
-    });
-  }
-
-  updateNewInit(event) {
-    this.setState({
-      newEntry: {
-        ...this.state.newEntry,
-        initiative: parseInt(event.target.value)
-      }
-    });
-  }
-
-  handleKeyDown(e) {
-    // ignore the arrow keys if focus is in the initiative entry field
-    if (e.target.name === "init_val") {
-      if (e.keyCode === 40 || e.keyCode === 38) {
-        e.preventDefault();
-      }
-    }
-
-    switch (e.keyCode) {
-      case 13:
-
-        if (e.target.name === "clearButton") {
-          this.clearEntries();
-        } else {
-          this.addEntry();
-        }
-
-        this.nameInputRef.current.focus();
-        break;
-      case 37: //left
-        break;
-      case 38: //up
-        if (this.state.focusedIndex > -1) {
-          if (this.state.focusedIndex === 0) { this.nameInputRef.current.focus(); };
-          this.setState({ focusedIndex: this.state.focusedIndex - 1 });
-        }
-        break;
-      case 39: //right
-        break;
-      case 40: //down
-        if (this.state.focusedIndex < this.state.allEntries.length - 1) {
-          this.setState({ focusedIndex: this.state.focusedIndex + 1 });
-        }
-        break;
-      default:
-        break;
-    }
-  }
-
-  clearEntries() {
-    this.setState({
-      allEntries: [],
-      initiativeOrder: [],
-      newEntry: {
-        name: "",
-        initiative: ""
-      },
-      initativeOrderMessage: "The initiative order is empty",
-    });
-  }
-
-  compareEntries(a, b) {
+  const compareEntries = (a, b) => {
     let comparison = 0;
     let a_value = a.initiative;
     let b_value = b.initiative;
@@ -166,209 +47,248 @@ class InitiativeOrder extends Component {
     // reverse the array
     return comparison * -1;
   }
-
-  sortEntries() {
-    const { allEntries } = this.state;
-
-    const sortedItems = [...allEntries].sort(this.compareEntries);
-
+  const sortEntries = () => {
+    const sortedItems = [...allEntries].sort(compareEntries);
     const newInitiative = sortedItems;
+
+    // TODO what if it's empty
 
     const newMessage = "Initiative Order is: " +
       newInitiative.map((item) => item.name);
 
-    this.setState({
-      initiativeOrder: newInitiative,
-      initativeOrderMessage: newMessage,
-    });
+    setInitiativeOrder(newInitiative);
+    setInitiativeOrderMessage(newMessage);
   }
-
-  addEntry() {
-    const { allEntries } = this.state;
-
+  const addEntry = () => {
     let newItems = [...allEntries];
 
     if (
-      !isNaN(this.state.newEntry.initiative) &&
-      this.state.newEntry.name.trim() !== ""
+      !isNaN(initInputRef.current.value) &&
+      nameInputRef.current.value.trim() !== ""
     ) {
-      const newEntry = this.state.newEntry;
-      newEntry.id = parseInt(uniqueId());
 
-      newItems.push(newEntry);
+      newItems.push({
+        name: nameInputRef.current.value.trim(),
+        initiative: initInputRef.current.value,
+        id: parseInt(uniqueId()),
+      });
     }
 
-    this.setState(
-      {
-        allEntries: newItems,
-        newEntry: {
-          name: "",
-          initiative: ""
-        }
-      },
-      () => {
-        this.sortEntries();
-      }
-    );
+    setAllEntries(newItems);
   }
 
-  killChild(child) {
-    const { initiativeOrder, allEntries } = this.state;
-
+  const killChild = (child) => {
     // delete all reference to child
     let newInitiativeOrder = initiativeOrder.filter(e => e.id !== child);
     let newAllEntries = allEntries.filter(e => e.id !== child);
 
-    this.setState({
-      initiativeOrder: newInitiativeOrder,
-      allEntries: newAllEntries
-    });
+    setInitiativeOrder(newInitiativeOrder);
+    setAllEntries(newAllEntries);
   }
 
-  updateEntry(id, propName, value) {
-    this.setState(
-      state => {
-        const allEntries = state.allEntries.map((item, index) => {
-          if (item.id === id) {
-            // this still feels like a hack
-            if (propName === "initiative") {
-              value = parseInt(value);
+  const updateEntry = (id, propName, value) => {
+    // TODO oh lordt
+    // this.setState(
+    //   state => {
+    //     const allEntries = state.allEntries.map((item, index) => {
+    //       if (item.id === id) {
+    //         // this still feels like a hack
+    //         if (propName === "initiative") {
+    //           value = parseInt(value);
 
-              if (isNaN(value)) {
-                return {
-                  ...item,
-                  [propName]: 0
-                };
-              } else {
-                return {
-                  ...item,
-                  [propName]: parseInt(value)
-                };
-              }
-            }
+    //           if (isNaN(value)) {
+    //             return {
+    //               ...item,
+    //               [propName]: 0
+    //             };
+    //           } else {
+    //             return {
+    //               ...item,
+    //               [propName]: parseInt(value)
+    //             };
+    //           }
+    //         }
 
-            return {
-              ...item,
-              [propName]: value
-            };
-          } else {
-            return item;
-          }
-        });
+    //         return {
+    //           ...item,
+    //           [propName]: value
+    //         };
+    //       } else {
+    //         return item;
+    //       }
+    //     });
 
-        return {
-          allEntries
-        };
-      },
-      () => {
-        this.sortEntries();
+    //     return {
+    //       allEntries
+    //     };
+    //   },
+    //   () => {
+    //     this.sortEntries();
+    //   }
+    // );
+  }
+
+  const handleKeyDown = (e) => {
+    // TODO - I think keyCode is deprecated
+
+    // ignore the arrow keys if focus is in the initiative entry field
+    if (e.target.name === "init_val") {
+      if (e.keyCode === 40 || e.keyCode === 38) {
+        e.preventDefault();
       }
+    }
+
+    switch (e.keyCode) {
+      case 13:
+
+        if (e.target.name === "clearButton") {
+          clearEntries();
+        } else {
+          addEntry();
+        }
+
+        nameInputRef.current.focus();
+        break;
+      case 37: //left
+        break;
+      case 38: //up
+        if (focusedIndex > -1) {
+          if (focusedIndex === 0) { nameInputRef.current.focus(); };
+          setFocusedIndex(focusedIndex - 1);
+        }
+        break;
+      case 39: //right
+        break;
+      case 40: //down
+        if (focusedIndex < allEntries.length - 1) {
+          setFocusedIndex(focusedIndex + 1);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const items = reorder(
+      initiativeOrder,
+      result.source.index,
+      result.destination.index
     );
+
+    setAllEntries(items); // TODO - this is triggering a resort in the useEffect. Drag and drops are wiped out by this.
+    // setInitiativeOrder(items);
+    // setInitiativeOrderMessage(newMessage);
   }
 
-  render() {
-    const { initiativeOrder } = this.state;
+  useEffect(() => {
+    sortEntries();
+    nameInputRef.current.focus();
+  }, []) // do it when it loads the first time
 
-    return (
-      <div className="initiative_order" onKeyDown={this.handleKeyDown}>
-        <div className="form_container">
-          <div className="field_container">
-            <label htmlFor="char_name">Name</label>
-            <input
-              type="text"
-              name="char_name"
-              id="char_name"
-              value={this.state.newEntry.name}
-              onClick={e => {
-                e.target.select();
-              }}
-              onChange={this.updateNewName}
-              ref={this.nameInputRef}
-            // placeholder={"Sylphira"}
-            ></input>
-          </div>
-          <div className="field_container">
-            <label htmlFor="init_val">Initiative</label>
-            <input
-              type="number"
-              name="init_val"
-              id="init_val"
-              pattern="[0-9]*"
-              value={this.state.newEntry.initiative}
-              onClick={e => {
-                e.target.select();
-              }}
-              onChange={this.updateNewInit}
-              ref={this.initInputRef}
-            // placeholder={"17"}
-            ></input>
-          </div>
-          <button className='submitButton' onClick={() => { this.addEntry(); this.nameInputRef.current.focus(); }}>
-            Add
-          </button>
+  useEffect(() => {
+    sortEntries();
+    nameInputRef.current.value = "";
+    initInputRef.current.value = "";
+  }, [allEntries]) // do it when allEntries changes
+
+  return (
+    <div className="initiative_order" onKeyDown={handleKeyDown}>
+      <div className="form_container">
+        <div className="field_container">
+          <label htmlFor="char_name">Name</label>
+          <input
+            type="text"
+            name="char_name"
+            id="char_name"
+            // value={this.state.newEntry.name}
+            onClick={e => {
+              e.target.select(); // highlight the value when I click in, don't just put the cursor
+            }}
+            // onChange={this.updateNewName}
+            ref={nameInputRef}
+          ></input>
         </div>
-        <div
-          role="region"
-          aria-live="polite"
-          className="screen-reader-text"
-          id="initiative_live"
-        >
-          {this.state.initativeOrderMessage}
+        <div className="field_container">
+          <label htmlFor="init_val">Initiative</label>
+          <input
+            type="number"
+            name="init_val"
+            id="init_val"
+            pattern="[0-9]*"
+            // value={this.state.newEntry.initiative}
+            onClick={e => {
+              e.target.select();
+            }}
+            // onChange={this.updateNewInit}
+            ref={initInputRef}
+          ></input>
         </div>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div className="entries"
-                ref={provided.innerRef}
-                {...provided.droppableProps}>
-                <ReactCSSTransitionGroup
-                  transitionName="example"
-                  transitionEnterTimeout={500}
-                  transitionLeaveTimeout={300}
-                >
-                  {initiativeOrder
-                    .filter(x => {
-                      return true;
-                    })
-                    .map((item, index) => {
-                      return (
-                        <InitiativeEntry
-                          index={index}
-                          // isActive={index === this.state.focusedIndex}
-                          displayNum={(index + 1).toString()}
-                          id={item.id}
-                          key={item.id}
-                          name={item.name}
-                          initiative={item.initiative}
-                          comments={item.comments}
-                          onUpdate={this.updateEntry}
-                          deleteCallback={this.killChild}
-                          triggerSortCallback={this.sortEntries}
-                        />
-                      );
-                    })}
-                </ReactCSSTransitionGroup>
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-        {initiativeOrder.length > 0 && (
-          <footer>
-            <p>Drag and drop to adjust order.</p>
-            <p className="hide-on-mobile"><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
-            <button className="clearButton" name="clearButton" onClick={this.clearEntries}>
-              Clear
-            </button>
-          </footer>
-        )}
+        <button className='submitButton' onClick={() => { addEntry(); nameInputRef.current.focus(); }}>
+          Add
+        </button>
       </div>
-    );
-  }
+      <div
+        role="region"
+        aria-live="polite"
+        className="screen-reader-text"
+        id="initiative_live"
+      >
+        {initiativeOrderMessage}
+      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div className="entries"
+              ref={provided.innerRef}
+              {...provided.droppableProps}>
+              <ReactCSSTransitionGroup
+                transitionName="example"
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={300}
+              >
+                {initiativeOrder
+                  .filter(x => {
+                    return true;
+                  })
+                  .map((item, index) => {
+                    return (
+                      <InitiativeEntry
+                        index={index}
+                        // isActive={index === this.state.focusedIndex}
+                        displayNum={(index + 1).toString()}
+                        id={item.id}
+                        key={item.id}
+                        name={item.name}
+                        initiative={item.initiative}
+                        comments={item.comments}
+                        onUpdate={updateEntry}
+                        deleteCallback={killChild}
+                        triggerSortCallback={sortEntries}
+                      />
+                    );
+                  })}
+              </ReactCSSTransitionGroup>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      {initiativeOrder.length > 0 && (
+        <footer>
+          <p>Drag and drop to adjust order.</p>
+          <p className="hide-on-mobile"><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
+          <button className="clearButton" name="clearButton" onClick={clearEntries}>
+            Clear
+          </button>
+        </footer>
+      )}
+    </div>
+  )
 }
-
-InitiativeOrder.propTypes = {
-  initialEntries: PropTypes.array
-};
 
 export default InitiativeOrder;
