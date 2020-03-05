@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import DeleteIcon from "../../assets/icons/Delete";
 import HamburgerIcon from "../../assets/icons/Hamburger";
@@ -6,112 +6,96 @@ import { Draggable } from "react-beautiful-dnd";
 import "./InitiativeEntry.scss";
 import classNames from "classnames";
 
-class InitiativeEntry extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
+const InitiativeEntry = (props) => {
+  const handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     // pass the new value up to the parent
-    this.props.onUpdate(this.props.id, name, value);
+    props.onUpdate(props.id, name, value);
   }
 
-  render() {
-    const {
-      id,
-      name,
-      initiative,
-      deleteCallback,
-      triggerSortCallback
-    } = this.props;
-
-    return (
-      <Draggable
-        draggableId={this.props.id.toString()}
-        index={this.props.index}
-      >
-        {(provided, snapshot) => (
+  return (
+    <Draggable
+      draggableId={props.id.toString()}
+      index={props.index}
+    >
+      {(provided, snapshot) => (
+        <div
+          id={"itemContainer" + props.id}
+          className={classNames({
+            initiative_entry: true,
+            initiative_entry__active: props.isActive,
+            is_dragging: snapshot.isDragging
+          })}
+          onKeyDown={e => {
+            if (
+              e.target.id === "itemContainer" + props.id &&
+              (e.keyCode === 46 || e.keyCode === 8)
+            ) {
+              props.deleteCallback(props.id);
+              // TODO - put focus on the new item with the same index as me
+              // browser is dropping it in roughly the right location. If I
+              // press tab once it's in the right spot. Can I use that?
+            }
+          }}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
           <div
-            id={"itemContainer" + this.props.id}
-            className={classNames({
-              initiative_entry: true,
-              initiative_entry__active: this.props.isActive,
-              is_dragging: snapshot.isDragging
-            })}
-            onKeyDown={e => {
-              if (
-                e.target.id === "itemContainer" + this.props.id &&
-                (e.keyCode === 46 || e.keyCode === 8)
-              ) {
-                deleteCallback(id);
-                // TODO - put focus on the new item with the same index as me
-                // browser is dropping it in roughly the right location. If I
-                // press tab once it's in the right spot. Can I use that?
-              }
-            }}
-            {...provided.draggableProps}
+            className="grabber hamburgerIcon"
             {...provided.dragHandleProps}
-            ref={provided.innerRef}
+            tabIndex={-1}
           >
-            <div
-              className="grabber hamburgerIcon"
-              {...provided.dragHandleProps}
-              tabIndex={-1}
-            >
-              <HamburgerIcon></HamburgerIcon>
-            </div>
-            <div className="name">
-              <input
-                type="text"
-                name="name"
-                aria-label="Name"
-                value={name}
-                onClick={e => {
-                  e.target.select();
-                }}
-                onChange={this.handleInputChange}
-              />
-            </div>
-            <div className="initiative_roll">
-              <input
-                type="text"
-                name="initiative"
-                pattern="[0-9]*"
-                aria-label="Initiative"
-                value={initiative}
-                onClick={e => {
-                  e.target.select();
-                }}
-                onChange={this.handleInputChange}
-                onBlur={() => {
-                  triggerSortCallback();
-                }}
-              />
-            </div>
-            <div className="actions">
-              {/* call up to my parent and tell them to kill me */}
-              {deleteCallback && (
-                <div
-                  className="deleteIcon"
-                  onClick={() => {
-                    deleteCallback(id);
-                  }}
-                >
-                  <DeleteIcon />
-                </div>
-              )}
-            </div>
+            <HamburgerIcon></HamburgerIcon>
           </div>
-        )}
-      </Draggable>
-    );
-  }
+          <div className="name">
+            <input
+              type="text"
+              name="name"
+              aria-label="Name"
+              value={props.name}
+              onClick={e => {
+                e.target.select();
+              }}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="initiative_roll">
+            <input
+              type="text"
+              name="initiative"
+              pattern="[0-9]*"
+              aria-label="Initiative"
+              value={props.initiative}
+              onClick={e => {
+                e.target.select();
+              }}
+              onChange={handleInputChange}
+              onBlur={() => {
+                props.triggerSortCallback();
+              }}
+            />
+          </div>
+          <div className="actions">
+            {/* call up to my parent and tell them to kill me */}
+            {props.deleteCallback && (
+              <div
+                className="deleteIcon"
+                onClick={() => {
+                  props.deleteCallback(props.id);
+                }}
+              >
+                <DeleteIcon />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </Draggable>
+  )
 }
 
 InitiativeEntry.propTypes = {
