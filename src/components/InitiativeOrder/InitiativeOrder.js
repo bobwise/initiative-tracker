@@ -6,58 +6,42 @@ import "./InitiativeOrder.scss";
 
 var uniqueId = require("lodash.uniqueid");
 
+const compareEntries = (a, b) => {
+  let comparison = 0;
+  let a_value = a.initiative;
+  let b_value = b.initiative;
+
+  if (a_value > b_value) {
+    comparison = 1;
+  } else if (b_value > a_value) {
+    comparison = -1;
+  } else {
+    comparison = 0;
+  }
+
+  // reverse the array so the highest score is first
+  return comparison * -1;
+}
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 const InitiativeOrder = (props) => {
 
   const nameInputRef = useRef(null);
   const initInputRef = useRef(null);
 
   const [allEntries, setAllEntries] = useState(props.initialEntries ? props.initialEntries : []);
-  const [initiativeOrder, setInitiativeOrder] = useState([]);
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  // const [activeIndex, setActiveIndex] = useState(-1);
   const [initiativeOrderMessage, setInitiativeOrderMessage] = useState("");
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-  };
   const clearEntries = () => {
     setAllEntries([]);
-    setInitiativeOrder([]);
     setInitiativeOrderMessage("The initiative order is empty");
-  }
-  const compareEntries = (a, b) => {
-    let comparison = 0;
-    let a_value = a.initiative;
-    let b_value = b.initiative;
-
-    if (a_value > b_value) {
-      // console.log(a_value + " is greater than " + b_value);
-      comparison = 1;
-    } else if (b_value > a_value) {
-      // console.log(a_value + " is less than " + b_value);
-      comparison = -1;
-    } else {
-      // console.log(a_value + " is equal to " + b_value);
-      comparison = 0;
-    }
-    // reverse the array
-    return comparison * -1;
-  }
-  const sortEntries = () => {
-    const sortedItems = [...allEntries].sort(compareEntries);
-    const newInitiative = sortedItems;
-
-    // TODO what if it's empty
-
-    const newMessage = "Initiative Order is: " +
-      newInitiative.map((item) => item.name);
-
-    setInitiativeOrder(newInitiative);
-    setInitiativeOrderMessage(newMessage);
   }
   const addEntry = () => {
     let newItems = [...allEntries];
@@ -69,65 +53,51 @@ const InitiativeOrder = (props) => {
 
       newItems.push({
         name: nameInputRef.current.value.trim(),
-        initiative: initInputRef.current.value,
+        initiative: Number(initInputRef.current.value),
         id: parseInt(uniqueId()),
       });
     }
 
+    newItems = newItems.sort(compareEntries);
+
+    setInitiativeOrderMessage("Initiative Order is: " + newItems.map((item) => item.name));
     setAllEntries(newItems);
   }
-
   const killChild = (child) => {
     // delete all reference to child
-    let newInitiativeOrder = initiativeOrder.filter(e => e.id !== child);
-    let newAllEntries = allEntries.filter(e => e.id !== child);
-
-    setInitiativeOrder(newInitiativeOrder);
-    setAllEntries(newAllEntries);
+    setAllEntries(allEntries.filter(e => e.id !== child));
   }
-
   const updateEntry = (id, propName, value) => {
-    // TODO oh lordt
-    // this.setState(
-    //   state => {
-    //     const allEntries = state.allEntries.map((item, index) => {
-    //       if (item.id === id) {
-    //         // this still feels like a hack
-    //         if (propName === "initiative") {
-    //           value = parseInt(value);
+    const newEntries = allEntries.map((item, index) => {
+      if (item.id === id) {
+        // this still feels like a hack
+        if (propName === "initiative") {
+          value = parseInt(value);
 
-    //           if (isNaN(value)) {
-    //             return {
-    //               ...item,
-    //               [propName]: 0
-    //             };
-    //           } else {
-    //             return {
-    //               ...item,
-    //               [propName]: parseInt(value)
-    //             };
-    //           }
-    //         }
+          if (isNaN(value)) {
+            return {
+              ...item,
+              [propName]: 0
+            };
+          } else {
+            return {
+              ...item,
+              [propName]: parseInt(value)
+            };
+          }
+        }
 
-    //         return {
-    //           ...item,
-    //           [propName]: value
-    //         };
-    //       } else {
-    //         return item;
-    //       }
-    //     });
+        return {
+          ...item,
+          [propName]: value
+        };
+      } else {
+        return item;
+      }
+    });
 
-    //     return {
-    //       allEntries
-    //     };
-    //   },
-    //   () => {
-    //     this.sortEntries();
-    //   }
-    // );
+    setAllEntries(newEntries);
   }
-
   const handleKeyDown = (e) => {
     // TODO - I think keyCode is deprecated
 
@@ -175,23 +145,18 @@ const InitiativeOrder = (props) => {
     }
 
     const items = reorder(
-      initiativeOrder,
+      allEntries,
       result.source.index,
       result.destination.index
     );
 
-    setAllEntries(items); // TODO - this is triggering a resort in the useEffect. Drag and drops are wiped out by this.
-    // setInitiativeOrder(items);
-    // setInitiativeOrderMessage(newMessage);
+    setAllEntries(items);
+    setInitiativeOrderMessage("Initiative Order is: " + items.map((item) => item.name));
   }
-
   useEffect(() => {
-    sortEntries();
     nameInputRef.current.focus();
   }, []) // do it when it loads the first time
-
   useEffect(() => {
-    sortEntries();
     nameInputRef.current.value = "";
     initInputRef.current.value = "";
   }, [allEntries]) // do it when allEntries changes
@@ -251,7 +216,7 @@ const InitiativeOrder = (props) => {
                 transitionEnterTimeout={500}
                 transitionLeaveTimeout={300}
               >
-                {initiativeOrder
+                {allEntries
                   .filter(x => {
                     return true;
                   })
@@ -259,7 +224,7 @@ const InitiativeOrder = (props) => {
                     return (
                       <InitiativeEntry
                         index={index}
-                        // isActive={index === this.state.focusedIndex}
+                        isActive={index === focusedIndex}
                         displayNum={(index + 1).toString()}
                         id={item.id}
                         key={item.id}
@@ -268,7 +233,6 @@ const InitiativeOrder = (props) => {
                         comments={item.comments}
                         onUpdate={updateEntry}
                         deleteCallback={killChild}
-                        triggerSortCallback={sortEntries}
                       />
                     );
                   })}
@@ -278,7 +242,7 @@ const InitiativeOrder = (props) => {
           )}
         </Droppable>
       </DragDropContext>
-      {initiativeOrder.length > 0 && (
+      {allEntries.length > 0 && (
         <footer>
           <p>Drag and drop to adjust order.</p>
           <p className="hide-on-mobile"><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>

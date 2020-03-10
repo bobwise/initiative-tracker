@@ -1,5 +1,4 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect } from "react"
 import DeleteIcon from "../../assets/icons/Delete";
 import HamburgerIcon from "../../assets/icons/Hamburger";
 import { Draggable } from "react-beautiful-dnd";
@@ -7,6 +6,7 @@ import "./InitiativeEntry.scss";
 import classNames from "classnames";
 
 const InitiativeEntry = (props) => {
+
   const handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -16,6 +16,14 @@ const InitiativeEntry = (props) => {
     props.onUpdate(props.id, name, value);
   }
 
+  useEffect(() => {
+    if (props.isActive) { 
+      // this should be a ref, but we already have a framework ref
+      // on that container for drag and drop.
+      document.getElementById("itemContainer" + props.id).focus(); 
+    }
+  }, [props.isActive]) // do it when it loads the first time
+  
   return (
     <Draggable
       draggableId={props.id.toString()}
@@ -26,7 +34,7 @@ const InitiativeEntry = (props) => {
           id={"itemContainer" + props.id}
           className={classNames({
             initiative_entry: true,
-            initiative_entry__active: props.isActive,
+            // initiative_entry__active: props.isActive,
             is_dragging: snapshot.isDragging
           })}
           onKeyDown={e => {
@@ -35,9 +43,6 @@ const InitiativeEntry = (props) => {
               (e.keyCode === 46 || e.keyCode === 8)
             ) {
               props.deleteCallback(props.id);
-              // TODO - put focus on the new item with the same index as me
-              // browser is dropping it in roughly the right location. If I
-              // press tab once it's in the right spot. Can I use that?
             }
           }}
           {...provided.draggableProps}
@@ -74,9 +79,6 @@ const InitiativeEntry = (props) => {
                 e.target.select();
               }}
               onChange={handleInputChange}
-              onBlur={() => {
-                props.triggerSortCallback();
-              }}
             />
           </div>
           <div className="actions">
@@ -97,18 +99,5 @@ const InitiativeEntry = (props) => {
     </Draggable>
   )
 }
-
-InitiativeEntry.propTypes = {
-  id: PropTypes.number,
-  name: PropTypes.string,
-  initiative: PropTypes.number,
-  tiebreakerOrder: PropTypes.number,
-  isActive: PropTypes.bool,
-  onUpdate: PropTypes.func,
-  deleteCallback: PropTypes.func,
-  triggerSortCallback: PropTypes.func
-};
-
-InitiativeEntry.defaultProps = {};
 
 export default InitiativeEntry;
