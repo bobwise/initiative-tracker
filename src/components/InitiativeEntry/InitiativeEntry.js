@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import DeleteIcon from "../../assets/icons/Delete";
 import HamburgerIcon from "../../assets/icons/Hamburger";
 import { Draggable } from "react-beautiful-dnd";
@@ -52,7 +52,7 @@ const InitiativeEntry = (props) => {
           <div
             className="grabber hamburgerIcon"
             {...provided.dragHandleProps}
-            tabIndex={-1}
+            tabIndex={0}
           >
             <HamburgerIcon></HamburgerIcon>
           </div>
@@ -60,7 +60,7 @@ const InitiativeEntry = (props) => {
             <input
               type="text"
               name="name"
-              aria-label="Name"
+              aria-label="Character Name"
               value={props.name}
               onClick={e => {
                 e.target.select();

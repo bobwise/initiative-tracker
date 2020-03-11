@@ -4,7 +4,7 @@ A Dungeons & Dragons tool for tracking turn order. 🎲🐉
 
 See it in action [here](https://bobwise.github.io/initiative-tracker/).
 
-![Demonstration gif](src/assets/images/demo2.gif)
+![Demonstration gif](src/assets/images/demo3.gif)
 
 ## Features
 

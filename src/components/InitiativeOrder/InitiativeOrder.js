@@ -38,6 +38,7 @@ const InitiativeOrder = (props) => {
   const [allEntries, setAllEntries] = useState(props.initialEntries ? props.initialEntries : []);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [initiativeOrderMessage, setInitiativeOrderMessage] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
 
   const clearEntries = () => {
     setAllEntries([]);
@@ -68,6 +69,9 @@ const InitiativeOrder = (props) => {
     setAllEntries(allEntries.filter(e => e.id !== child));
   }
   const updateEntry = (id, propName, value) => {
+
+    // console.log(id + " , " + propName + " , " + value);
+
     const newEntries = allEntries.map((item, index) => {
       if (item.id === id) {
         // this still feels like a hack
@@ -101,6 +105,8 @@ const InitiativeOrder = (props) => {
   const handleKeyDown = (e) => {
     // TODO - I think keyCode is deprecated
 
+    // console.log(e.keyCode);
+
     // ignore the arrow keys if focus is in the initiative entry field
     if (e.target.name === "init_val") {
       if (e.keyCode === 40 || e.keyCode === 38) {
@@ -109,6 +115,25 @@ const InitiativeOrder = (props) => {
     }
 
     switch (e.keyCode) {
+      case 32:
+        if (e.target.classList.contains("initiative_entry")) {
+          if (isDragging) {
+            setIsDragging(false);
+          } else {
+            // if (focusedIndex > 0) {setFocusedIndex(focusedIndex+1);}
+            setIsDragging(true);
+          }
+        }
+      break;
+
+      case 27:
+        if (e.target.classList.contains("initiative_entry")) {
+          if (isDragging) {
+            setIsDragging(false);
+          }
+        }
+      break;
+
       case 13:
 
         if (e.target.name === "clearButton") {
@@ -153,6 +178,7 @@ const InitiativeOrder = (props) => {
     setAllEntries(items);
     setInitiativeOrderMessage("Initiative Order is: " + items.map((item) => item.name));
   }
+
   useEffect(() => {
     nameInputRef.current.focus();
   }, []) // do it when it loads the first time
@@ -163,18 +189,17 @@ const InitiativeOrder = (props) => {
 
   return (
     <div className="initiative_order" onKeyDown={handleKeyDown}>
-      <div className="form_container">
+      <div className="form_container" role="form">
         <div className="field_container">
-          <label htmlFor="char_name">Name</label>
+          <label htmlFor="char_name">Character Name</label>
           <input
             type="text"
             name="char_name"
             id="char_name"
-            // value={this.state.newEntry.name}
+            aria-label="Character Name"
             onClick={e => {
               e.target.select(); // highlight the value when I click in, don't just put the cursor
             }}
-            // onChange={this.updateNewName}
             ref={nameInputRef}
           ></input>
         </div>
@@ -182,23 +207,25 @@ const InitiativeOrder = (props) => {
           <label htmlFor="init_val">Initiative</label>
           <input
             type="number"
+            aria-label="Initiative"
             name="init_val"
             id="init_val"
             pattern="[0-9]*"
-            // value={this.state.newEntry.initiative}
             onClick={e => {
               e.target.select();
             }}
-            // onChange={this.updateNewInit}
             ref={initInputRef}
           ></input>
         </div>
-        <button className='submitButton' onClick={() => { addEntry(); nameInputRef.current.focus(); }}>
+        <button 
+          className='submitButton' 
+          aria-label="Add Initiative Entry"
+          onClick={() => { addEntry(); nameInputRef.current.focus(); }}
+        >
           Add
         </button>
       </div>
       <div
-        role="region"
         aria-live="polite"
         className="screen-reader-text"
         id="initiative_live"
@@ -210,21 +237,20 @@ const InitiativeOrder = (props) => {
           {(provided, snapshot) => (
             <div className="entries"
               ref={provided.innerRef}
-              {...provided.droppableProps}>
+              {...provided.droppableProps}
+              role="region"
+            >
               <ReactCSSTransitionGroup
                 transitionName="example"
                 transitionEnterTimeout={500}
                 transitionLeaveTimeout={300}
               >
                 {allEntries
-                  .filter(x => {
-                    return true;
-                  })
                   .map((item, index) => {
                     return (
                       <InitiativeEntry
                         index={index}
-                        isActive={index === focusedIndex}
+                        isActive={index === focusedIndex && !isDragging} // if we're dragging, focus is managed by the dnd lib
                         displayNum={(index + 1).toString()}
                         id={item.id}
                         key={item.id}

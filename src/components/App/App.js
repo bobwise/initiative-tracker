@@ -44,7 +44,7 @@ const App = (props) => {
   ]
 
   // Comment this line to include test data
-  // entries = [];
+  entries = [];
 
   return (
     <main>
