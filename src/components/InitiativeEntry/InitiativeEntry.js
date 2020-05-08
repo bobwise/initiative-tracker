@@ -52,7 +52,8 @@ const InitiativeEntry = (props) => {
           <div
             className="grabber hamburgerIcon"
             {...provided.dragHandleProps}
-            tabIndex={0}
+            tabIndex={-1}
+            aria-hidden="true"
           >
             <HamburgerIcon></HamburgerIcon>
           </div>

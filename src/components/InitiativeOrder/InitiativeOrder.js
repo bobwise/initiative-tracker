@@ -120,11 +120,10 @@ const InitiativeOrder = (props) => {
           if (isDragging) {
             setIsDragging(false);
           } else {
-            // if (focusedIndex > 0) {setFocusedIndex(focusedIndex+1);}
             setIsDragging(true);
           }
         }
-      break;
+        break;
 
       case 27:
         if (e.target.classList.contains("initiative_entry")) {
@@ -132,7 +131,7 @@ const InitiativeOrder = (props) => {
             setIsDragging(false);
           }
         }
-      break;
+        break;
 
       case 13:
 
@@ -179,9 +178,11 @@ const InitiativeOrder = (props) => {
     setInitiativeOrderMessage("Initiative Order is: " + items.map((item) => item.name));
   }
 
-  useEffect(() => {
-    nameInputRef.current.focus();
-  }, []) // do it when it loads the first time
+  // Commenting this because putting focus on the input on initial load
+  // causes the name of the tool to never be read by AT
+  // useEffect(() => {
+  //   nameInputRef.current.focus();
+  // }, []) // do it when it loads the first time
   useEffect(() => {
     nameInputRef.current.value = "";
     initInputRef.current.value = "";
@@ -189,9 +190,10 @@ const InitiativeOrder = (props) => {
 
   return (
     <div className="initiative_order" onKeyDown={handleKeyDown}>
-      <div className="form_container" role="form">
+      <h2 aria-hidden="true" id='entry_form_label' class="screen-reader-text">Add a character to the initiative order.</h2>
+      <div className="form_container" role="form" aria-labelledby="entry_form_label">
         <div className="field_container">
-          <label htmlFor="char_name">Character Name</label>
+          <label aria-hidden="true" htmlFor="char_name">Character Name</label>
           <input
             type="text"
             name="char_name"
@@ -204,7 +206,7 @@ const InitiativeOrder = (props) => {
           ></input>
         </div>
         <div className="field_container">
-          <label htmlFor="init_val">Initiative</label>
+          <label aria-hidden="true" htmlFor="init_val">Initiative</label>
           <input
             type="number"
             aria-label="Initiative"
@@ -217,8 +219,8 @@ const InitiativeOrder = (props) => {
             ref={initInputRef}
           ></input>
         </div>
-        <button 
-          className='submitButton' 
+        <button
+          className='submitButton'
           aria-label="Add Initiative Entry"
           onClick={() => { addEntry(); nameInputRef.current.focus(); }}
         >
@@ -235,47 +237,49 @@ const InitiativeOrder = (props) => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
-            <div className="entries"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              role="region"
-            >
-              <ReactCSSTransitionGroup
-                transitionName="example"
-                transitionEnterTimeout={500}
-                transitionLeaveTimeout={300}
+            allEntries.length > 0 && (
+              <main className="entries"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
               >
-                {allEntries
-                  .map((item, index) => {
-                    return (
-                      <InitiativeEntry
-                        index={index}
-                        isActive={index === focusedIndex && !isDragging} // if we're dragging, focus is managed by the dnd lib
-                        displayNum={(index + 1).toString()}
-                        id={item.id}
-                        key={item.id}
-                        name={item.name}
-                        initiative={item.initiative}
-                        comments={item.comments}
-                        onUpdate={updateEntry}
-                        deleteCallback={killChild}
-                      />
-                    );
-                  })}
-              </ReactCSSTransitionGroup>
-              {provided.placeholder}
-            </div>
+                <ReactCSSTransitionGroup
+                  transitionName="example"
+                  transitionEnterTimeout={500}
+                  transitionLeaveTimeout={300}
+                >
+                  {allEntries
+                    .map((item, index) => {
+                      return (
+                        <InitiativeEntry
+                          index={index}
+                          isActive={index === focusedIndex && !isDragging} // if we're dragging, focus is managed by the dnd lib
+                          displayNum={(index + 1).toString()}
+                          id={item.id}
+                          key={item.id}
+                          name={item.name}
+                          initiative={item.initiative}
+                          comments={item.comments}
+                          onUpdate={updateEntry}
+                          deleteCallback={killChild}
+                        />
+                      );
+                    })}
+                </ReactCSSTransitionGroup>
+                {provided.placeholder}
+              </main>
+            )
           )}
         </Droppable>
       </DragDropContext>
       {allEntries.length > 0 && (
-        <footer>
+        <div class="entry_footer">
           <p>Drag and drop to adjust order.</p>
-          <p className="hide-on-mobile"><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
+          <span aria-label="Tab and Space to select rows, Up Arrow and Down Arrow to move them."></span>
+          <p className="hide-on-mobile" aria-hidden="true"><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
           <button className="clearButton" name="clearButton" onClick={clearEntries}>
             Clear
           </button>
-        </footer>
+        </div>
       )}
     </div>
   )

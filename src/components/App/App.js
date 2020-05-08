@@ -44,22 +44,21 @@ const App = (props) => {
   ]
 
   // Comment this line to include test data
-  entries = [];
+  // entries = [];
 
   return (
-    <main>
+    <>
       <div className="App">
         <h1>Initiative Tracker</h1>
         <Divider />
         <InitiativeOrder
           initialEntries={entries}
         ></InitiativeOrder>
-
       </div>
       <footer className='siteFooter'>
-        <p>by <a href="http://twitter.com/bobwise/">Bobwise</a></p>
+        <p><span aria-hidden="true">by</span> <a aria-label="Made by Bobwise, with love." href="http://twitter.com/bobwise/">Bobwise</a></p>
       </footer>
-    </main>
+    </>
   );
 }
 
