@@ -189,16 +189,15 @@ const InitiativeOrder = (props) => {
   }, [allEntries]) // do it when allEntries changes
 
   return (
-    <div className="initiative_order" onKeyDown={handleKeyDown}>
-      <h2 aria-hidden="true" id='entry_form_label' class="screen-reader-text">Add a character to the initiative order.</h2>
-      <div className="form_container" role="form" aria-labelledby="entry_form_label">
+    <main className="initiative_order" onKeyDown={handleKeyDown}>
+      <div className="form_container" role="form">
         <div className="field_container">
-          <label aria-hidden="true" htmlFor="char_name">Character Name</label>
+          <label aria-hidden="true" htmlFor="char_name">Name</label>
           <input
             type="text"
             name="char_name"
             id="char_name"
-            aria-label="Character Name"
+            aria-label="Enter character name."
             onClick={e => {
               e.target.select(); // highlight the value when I click in, don't just put the cursor
             }}
@@ -209,7 +208,7 @@ const InitiativeOrder = (props) => {
           <label aria-hidden="true" htmlFor="init_val">Initiative</label>
           <input
             type="number"
-            aria-label="Initiative"
+            aria-label="Enter character initiative"
             name="init_val"
             id="init_val"
             pattern="[0-9]*"
@@ -238,7 +237,7 @@ const InitiativeOrder = (props) => {
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             allEntries.length > 0 && (
-              <main className="entries"
+              <div className="entries"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
@@ -266,13 +265,13 @@ const InitiativeOrder = (props) => {
                     })}
                 </ReactCSSTransitionGroup>
                 {provided.placeholder}
-              </main>
+              </div>
             )
           )}
         </Droppable>
       </DragDropContext>
       {allEntries.length > 0 && (
-        <div class="entry_footer">
+        <div className="entry_footer">
           <p>Drag and drop to adjust order.</p>
           <span aria-label="Tab and Space to select rows, Up Arrow and Down Arrow to move them."></span>
           <p className="hide-on-mobile" aria-hidden="true"><kbd>Tab</kbd> and <kbd>Space</kbd> to select rows, <kbd>↑</kbd> and <kbd>↓</kbd> to move them.</p>
@@ -281,7 +280,7 @@ const InitiativeOrder = (props) => {
           </button>
         </div>
       )}
-    </div>
+    </main>
   )
 }
 

@@ -32,11 +32,6 @@ h2 {
   margin-bottom: 0;
 }
 
-.dividerImage {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 button {
   padding: 10px;
   border-radius: 4px;
@@ -107,7 +102,7 @@ button:focus {
 footer {
   margin: 0 auto;
   min-width: 250px;
-  max-width: 500px;
+  max-width: 400px;
 }
 
 .entry_footer p {
@@ -164,4 +159,11 @@ kbd {
   position: absolute;
   width: 1px;
   word-wrap: normal !important;
+}
+
+hr {
+  border-top: 5px solid $dark-red;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
 }

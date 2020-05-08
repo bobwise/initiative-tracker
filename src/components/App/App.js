@@ -1,7 +1,6 @@
 import React from "react";
 import InitiativeOrder from "../InitiativeOrder/InitiativeOrder.js";
 import "./App.scss";
-import Divider from "../../assets/icons/Divider";
 
 const App = (props) => {
 
@@ -50,7 +49,7 @@ const App = (props) => {
     <>
       <div className="App">
         <h1>Initiative Tracker</h1>
-        <Divider />
+        <hr aria-hidden="true"/>
         <InitiativeOrder
           initialEntries={entries}
         ></InitiativeOrder>
