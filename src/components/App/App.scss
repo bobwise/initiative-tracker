@@ -2,10 +2,23 @@ $dark-red: #822000;
 $paper: #f8f2d3;
 $brown: #957a41;
 
+$gray-lighter: #D2D2D2;
+$gray-light: #7D7D7D;
+$gray: #3F3F45;
+$gray-dark: #2A2A2B;
+$gray-darker: #212121;
+
 body {
   font-family: "modesto-text", serif;
   margin-left: 5%;
   margin-right: 5%;
+
+  color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $gray-darker;
+    color: $gray-lighter;
+  }
 }
 
 h1,
@@ -17,19 +30,16 @@ h6 {
   font-family: "modesto-text", serif;
   color: $dark-red;
   margin-block-start: 0;
+
+  @media (prefers-color-scheme: dark) {
+    color: $gray-lighter;
+  }
 }
 
 h1 {
   width: 100%;
   font-size: 2em;
   margin-bottom: 5px;
-}
-
-h2 {
-  width: 100%;
-  font-size: 1em;
-  color: #000000;
-  margin-bottom: 0;
 }
 
 button {
@@ -40,15 +50,29 @@ button {
   border: none;
   font-size: 16px;
   font-family: "modesto-text", serif;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $gray-darker;
+    border: 2px solid $gray;
+  }
 }
 
 button:hover {
   background-color: darken($dark-red, 5%);
   cursor: pointer;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #000;
+    border: 2px solid $gray-light;
+  }
 }
 
 button:focus {
   outline: $dark-red auto 5px;
+
+  @media (prefers-color-scheme: dark) {
+    outline: $gray-light auto 5px;
+  }
 }
 
 .App {
@@ -67,7 +91,13 @@ button:focus {
   display: block;
 
   box-shadow: 0 0 5px #979aa4;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $gray-dark;
+  }  
 }
+
+
 
 .App:before {
   content: "";
@@ -82,6 +112,10 @@ button:focus {
   min-width: 262px;
   max-width: 560px;
   margin: 0 auto;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $gray-light;
+  }
 }
 
 .App:after {
@@ -97,6 +131,10 @@ button:focus {
   min-width: 262px;
   max-width: 560px;
   margin: 0 auto;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $gray-light;
+  }
 }
 
 footer {
@@ -110,19 +148,35 @@ footer {
   font-size: 0.85rem;
   margin: 0;
   margin-bottom: 7px;
+  
+  @media (prefers-color-scheme: dark) {
+    color: $gray-light;
+  }
 }
 
 footer a {
   color: #666;
 
+  @media (prefers-color-scheme: dark) {
+    color: $gray-light;
+  }
+
   &:hover,
   &:focus {
     border-bottom: 2px solid #666;
+
+    @media (prefers-color-scheme: dark) {
+      border-bottom: 2px solid $gray-light;
+    }
   }
 }
 
 footer a:focus {
   outline: $dark-red auto 5px;
+
+  @media (prefers-color-scheme: dark) {
+    outline: $gray-light auto 5px;
+  }
 }
 
 .siteFooter {
@@ -141,6 +195,13 @@ kbd {
   border: 1px solid #d1d5da;
   border-radius: 3px;
   box-shadow: inset 0 -1px 0 #d1d5da;
+
+  @media (prefers-color-scheme: dark) {
+    color: $gray-lighter;
+    background-color: $gray;
+    border: 1px solid #d1d5da;
+    box-shadow: inset 0 -1px 0 #d1d5da;
+  }
 }
 
 @media screen and (min-width: 0px) and (max-width: 400px) {
@@ -166,4 +227,8 @@ hr {
   border-left: 0;
   border-right: 0;
   border-bottom: 0;
+
+  @media (prefers-color-scheme: dark) {
+    border-top: 5px solid $gray-light;
+  }
 }

@@ -2,13 +2,24 @@ $dark-red: #822000;
 $paper: #f8f2d3;
 $brown: #957a41;
 
+$gray-lighter: #D2D2D2;
+$gray-light: #7d7d7d;
+$gray: #3f3f45;
+$gray-dark: #2a2a2b;
+$gray-darker: #212121;
+
 input {
   font-family: "modesto-text", serif;
   background: none;
   border: none;
   font-size: 18px;
-	// width: 100%;
-	text-align: center;
+  // width: 100%;
+  text-align: center;
+  color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    color: $gray-lighter;
+  }
 }
 
 .form_container {
@@ -25,17 +36,27 @@ input {
 }
 
 .form_container input {
-  border: 2px solid #CCC;
+  border: 2px solid #ccc;
   border-radius: 4px;
   margin-top: 5px;
   text-align: left;
   padding: 5px;
   width: 80%;
-  background: #FFF;
+  background: #fff;
+
+  @media (prefers-color-scheme: dark) {
+    color: $gray-lighter;
+    border: 2px solid $gray-light;
+    background: $gray;
+  }
 }
 
 input:focus {
   outline: $dark-red auto 5px;
+  
+  @media (prefers-color-scheme: dark) {
+    outline: $gray-light auto 5px;
+  }
 }
 
 .initiative_entry {
@@ -45,17 +66,29 @@ input:focus {
   border: 0;
   border-bottom: 1px solid $dark-red;
   // border-radius: 4px;
-	padding: 5px 15px;
-	margin-bottom: 1px;
+  padding: 5px 15px;
+  margin-bottom: 1px;
   // background-color: #FDFDFD;
+
+  @media (prefers-color-scheme: dark) {
+    border-bottom: 1px solid $gray-light;
+  }
 }
 
 .initiative_entry:focus {
   outline: $dark-red auto 5px;
+
+  @media (prefers-color-scheme: dark) {
+    outline: $gray-light auto 5px;
+  }
 }
 
 .initiative_entry.is_dragging {
-  background-color: #EEE;
+  background-color: #eee;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $gray;
+  }
 }
 
 .initiative_entry__active {
@@ -76,31 +109,35 @@ input:focus {
 }
 
 .initiative_entry .deleteIcon {
-  display: none ;
+  display: none;
   float: right;
 }
 
 .initiative_entry:hover {
-
-  background-color: darken($paper, 5%);
+  background-color: $gray-light;
 
   .deleteIcon {
     display: block;
   }
 }
 
-
-.deleteIcon, .hamburgerIcon, .goIcon {
+.deleteIcon,
+.hamburgerIcon,
+.goIcon {
   height: 16px;
-	width: 16px;
-  opacity: .25;
+  width: 16px;
+  opacity: 0.25;
 }
 
 .deleteIcon:hover {
-  opacity: .5;
+  opacity: 0.5;
   cursor: pointer;
 }
 
 .hamburgerIcon {
   padding-top: 2px;
+
+  @media (prefers-color-scheme: dark) {
+    fill: $gray-lighter;
+  }
 }
