@@ -179,10 +179,11 @@ const InitiativeOrder = (props) => {
   }
 
   // Commenting this because putting focus on the input on initial load
-  // causes the name of the tool to never be read by AT
+  // skips over the title for AT
   // useEffect(() => {
   //   nameInputRef.current.focus();
   // }, []) // do it when it loads the first time
+
   useEffect(() => {
     nameInputRef.current.value = "";
     initInputRef.current.value = "";
@@ -207,7 +208,8 @@ const InitiativeOrder = (props) => {
         <div className="field_container">
           <label aria-hidden="true" htmlFor="init_val">Initiative</label>
           <input
-            type="number"
+            type="text"
+            // inputmode="numeric"
             aria-label="Enter character initiative"
             name="init_val"
             id="init_val"
